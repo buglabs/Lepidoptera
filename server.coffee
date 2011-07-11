@@ -54,8 +54,8 @@ renderEmptyMap = () ->
 
   console.log 'adding blank map'
 
-  buglabs = new google.maps.LatLng 70.0, -74.0
-  mapOptions = zoom: 7, center: buglabs, mapTypeId: google.maps.MapTypeId.TERRAIN
+  # center map on bug labs
+  mapOptions = zoom: 7, center: new google.maps.LatLng(70.0, -74.0) , mapTypeId: google.maps.MapTypeId.TERRAIN
   mapCanvas = document.getElementById "map_canvas"
   map = new google.maps.Map mapCanvas, mapOptions
 
