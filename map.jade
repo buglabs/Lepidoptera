@@ -3,11 +3,35 @@ html
   head
     title teh swaharm dehmo
 
-    link(rel='stylesheet' href='style.css' type='text/css')
+    link(rel='stylesheet', link='style.css', type='text/css')
 
-    if lt IE 9
-      script(src='http://html5shim.googlecode.com/svn/trunk/html5.js')
+    :coffeescript
+      console.log 'starting dnode server'
+      DNode = require 'dnode'
+      server = DNode addNewLocation, addNewLocation
+      server.start(6600)
+
+      console.log 'creating map centered around BUG Labs'
+      mapOptions = zoom: 7, center: new google.maps.LatLng(70.0, -74.0) , mapTypeId: google.maps.MapTypeId.TERRAIN
+      mapCanvas = document.getElementById "map_canvas"
+      map = new google.maps.Map mapCanvas, mapOptions
+        
+      addNewLocation = (data) ->
+        console.log 'adding new marker for data ' + data
+        marker = new google.maps.Marker
+          position: new google.maps.LatLng data.latitude, data.longitude
+          map: map
+          title: data.bug
+          html: "<strong>" + data.bug + "</strong>"
   
+        infowindow = google.maps.InfoWindow content: data.bug
+
+        google.maps.event.addListener marker, 'click', () ->
+          infowindow.setContent this.html
+          infowindow.open map, this
+  
+        markers.push marker
+ 
   body
     h1 dees iz teh swaharm on googol dehmo
     #map_canvas

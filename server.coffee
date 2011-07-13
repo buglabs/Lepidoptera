@@ -14,66 +14,62 @@ app.put '/location/:bug', (req,res) ->
 app.get '/location/:bug/:latitude,:longitude', (req, res) ->
   sendLocation req.params.bug, req.params.latitude, req.params.longitude
 
+# get /locations will show an updating map
+app.get '/locations', watchMap
+
+# sendLocation pushes out a new location for any bug
 sendLocation = (bugName, latitude, longitude) ->
   request.put
     header: 'X-BugSwarmApiKey: #{swarm.key}'
-    url:    'http://#{swarm.server}/swarms/id=#{swarm.id}&feed=#{bugName}'
-    json:   '{"latitude":#{latitude}, "longitude":#{longitude}}'
+    url:    'http://#{swarm.server}/resources/#{bugName}/feeds/location?swarm_id=#{swarm.id}'
+    json:   JSON.stringify { latitude: latitude, longitude: longitude }
     (error, response, body) ->
 
       if not error and response.statusCode == 200
-        console.log 'sending #{latitude}, #{longitude} for #{bug}'
+        console.log 'sent #{latitude}, #{longitude} for #{bug}'
 
-# this will only show new requests since the page was opened
-app.get '/locations', (req, res) ->
-  # write the correct header
-  response.writeHead 200, "Content-Type": "text/html"
+# watchMap will only display new markers since the page was opened
+watchMap = (req, res) ->
+  console.log 'creating temporary consumer'
 
-  # keep the connection alive
-  setInterval (() -> res.write '\n'), 30000
+  consumer = nil
+  request
+    url:'http://#{swarm_server}/#{swarm.key}/#{swarm.id}/resources'
+    json: JSON.stringify { action: 'add', resource_type: 'consumer' }
+    (error, response, body) ->
+      if error or response.statusCode == 200
+        console.err 'error creating temporary consumer'
+      else
+        consumer = body.resource_id
 
-  # setup the blank page
-  renderEmptyMap
- 
-  # open a stream listening for any locations
-  request url:'http://#{swarm.server}/#{swarm.key}/#{swarm.id}/feeds?stream=true', (error, response, body) ->
-    if not error and response.statusCode == 200
-      console.log 'swarm feed connected'
-
-      response.on 'data', (data) ->
-        console.log 'recieved feed data: ' + data
-        addNewLocation data
+        console.log 'setting up keepalive connection'
+        response.writeHead 200, "Content-Type": "text/html"
+        setInterval (() -> res.write '\n'), 30000
 
 
+        console.log 'rendering map.jade'
+        # note that the dnode server is started here
+        jade.renderFile 'map.jade', (err, html) ->
+          not err and res.write html
 
-renderEmptyMap = () ->
-  console.log 'rendering map.jade'
 
-  jade.renderFile 'map.jade', (err, html) ->
-    not err and res.write html
+        console.log 'requesting feed'
+        request
+          url: 'http://#{swarm.server}/#{swarm.key}/#{swarm.id}/feeds?stream=true', (error, response, body) ->
+          if not error and response.statusCode == 200
+            response.on 'data', (data) ->
+              console.log 'calling remote.addNewLocation on data' + data
+              client = DNode.connect 6060, (remote) ->
+                remote.addNewLocation data
+      
 
-  console.log 'adding blank map'
+            response.on 'close', (data) ->
+              console.log 'removing temporary consumer ' + consumer
+              request
+                url: 'http://#{swarm.server}/#{swarm.key}/#{swarm.id}/resources'
+                json: JSON.stringify { action: 'remove', resource_id: consumer }
+                ( error, response, body) ->
+                  if error or response.statusCode == 200
+                    console.err 'error removing temporary consumer'
 
-  # center map on bug labs
-  mapOptions = zoom: 7, center: new google.maps.LatLng(70.0, -74.0) , mapTypeId: google.maps.MapTypeId.TERRAIN
-  mapCanvas = document.getElementById "map_canvas"
-  map = new google.maps.Map mapCanvas, mapOptions
-
-addNewLocation = (data) ->
-  console.log 'adding marker for ' + data.bug
-  
-  marker = new google.maps.Marker
-    position: new google.maps.LatLng data.latitude, data.longitude
-    map: map
-    title: data.bug
-    html: "<strong>" + data.bug + "</strong>"
-  
-  infowindow = google.maps.InfoWindow content: data.bug
-  
-  google.maps.event.addListener marker, 'click', () ->
-    infowindow.setContent this.html
-    infowindow.open map, this
-  
-  markers.push marker
-  
 app.listen 3000
