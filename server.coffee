@@ -1,9 +1,10 @@
 app = require('express').createServer()
 jade = require 'jade'
 request = require 'request'
+DNode = require 'dnode'
 
-swarm.id     = ''
-swarm.key    = ''
+swarm.id     = '37262a64817a13bd03bba603546f379aa33b3812'
+swarm.key    = '47845a166702ec7e5dfcf10f0d83b9a9e93f26fa'
 swarm.server = 'api.bugswarm-test'
 
 # put /location/bugName with latitude and longitude in the request object
