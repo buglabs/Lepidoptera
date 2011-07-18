@@ -3,7 +3,9 @@
   "version":"0.0.1",
   "dependencies":{
     "express":"2.4.2",
-    "jade":"0.12.4"
-    "request":"1.9.8"
+    "jade":"0.12.4",
+    "request":"1.9.8",
+    "dnode":"0.7.3",
+    "node-uuid":"1.2.0"
   }
 }
