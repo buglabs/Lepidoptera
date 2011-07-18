@@ -3,35 +3,42 @@ html
   head
     title teh swaharm dehmo
 
-    link(rel='stylesheet', link='style.css', type='text/css')
+    link(rel='stylesheet', type="text/css", media="screen, projection", href='screen.css' )
+    
+    script(src='/socketio.js')
+    script(src='http://maps.google.com/maps/api/js?sensor=false')
 
-    :coffeescript
-      console.log 'starting dnode server'
-      DNode = require 'dnode'
-      server = DNode addNewLocation, addNewLocation
-      server.start(6600)
-
-      console.log 'creating map centered around BUG Labs'
-      mapOptions = zoom: 7, center: new google.maps.LatLng(70.0, -74.0) , mapTypeId: google.maps.MapTypeId.TERRAIN
-      mapCanvas = document.getElementById "map_canvas"
-      map = new google.maps.Map mapCanvas, mapOptions
-        
-      addNewLocation = (data) ->
-        console.log 'adding new marker for data ' + data
-        marker = new google.maps.Marker
-          position: new google.maps.LatLng data.latitude, data.longitude
-          map: map
-          title: data.bug
-          html: "<strong>" + data.bug + "</strong>"
-  
-        infowindow = google.maps.InfoWindow content: data.bug
-
-        google.maps.event.addListener marker, 'click', () ->
-          infowindow.setContent this.html
-          infowindow.open map, this
-  
-        markers.push marker
- 
   body
-    h1 dees iz teh swaharm on googol dehmo
-    #map_canvas
+    h1 android feet
+    #map_canvas(style='width: 800px;height: 600px')
+
+    script
+     :coffeescript
+      window.initialize = ->
+        console.log 'starting dnode server'
+        server = DNode addNewLocation, addNewLocation
+        console.log 'dnode up'
+
+        console.log 'creating map centered around BUG Labs'
+        mapOptions = zoom: 12, center: new google.maps.LatLng(40.72498216901785, -73.99708271026611) , mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapCanvas = document.getElementById "map_canvas"
+        map = new google.maps.Map mapCanvas, mapOptions
+          
+        addNewLocation = (data) ->
+          console.log 'adding new marker for data ' + data
+          marker = new google.maps.Marker
+            position: new google.maps.LatLng data.latitude, data.longitude
+            map: map
+            title: data.bug
+            html: "<strong>" + data.bug + "</strong>"
+    
+          infowindow = google.maps.InfoWindow content: data.bug
+
+          google.maps.event.addListener marker, 'click', () ->
+            infowindow.setContent this.html
+            infowindow.open map, this
+
+          markers.push marker
+
+    script(type='text/javascript')
+      window.initialize()
