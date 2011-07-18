@@ -2,3 +2,6 @@
 *js
 node_modules
 *html
+swarm.json
+960gs
+.DS_Store

@@ -1,0 +1,129 @@
+@import url("960gs/960.css");@font-face
+{
+  font-family: "inconsolata";
+  src: url("/fonts/Inconsolata.otf");
+}
+@font-face
+{
+  font-family: "droid sans";
+  src: url("/fonts/DroidSans.ttf");
+}
+@font-face
+{
+  font-family: "droid sans bold";
+  src: url("/fonts/DroidSans-Bold.ttf");
+}
+
+body
+{
+  color:#333;
+  font-family: helvetica, arial, sans-serif;
+  font-size: 87.5%;    /* 16px * 0.875 = 14px */
+  line-height: 137.5%; /* 16px * 1.375 = 22px */
+}
+
+a
+{
+  text-decoration: none;
+  border-bottom: 0;
+}
+a:hover
+{
+  border-bottom: solid 1px;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+  color: #000;
+}
+h1, h2, h3
+{
+  font-family: "droid sans", helvetica, arial, sans-serif;
+}
+h4, h5, h6
+{
+  font-family: "droid sans bold", helvetica, arial, sans-serif;
+}
+
+h1
+{
+  font-size: 150.0%;
+}
+h2
+{
+  font-size:  137.5%;
+}
+h3
+{
+  font-size: 125.0%;
+}
+h4
+{
+  font-size: 112.5%;
+}
+h5, h6{
+  font-size: 100%;
+}
+
+pre,code
+{
+  font-family: "inconsolata", monospace;
+}
+
+.noul
+{
+  border-bottom: 0px;
+  text-decoration: none;
+}
+
+header, footer
+{
+  display: block;
+  padding: 1em 0;
+}
+
+header h1{
+  font-size: 200%;
+}
+
+header h1 a, header h1 a:visited
+{
+  color:#a23030;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+footer
+{
+  margin-top: 1em;
+  border-top: solid 1px #ccc;
+  text-align: right;
+}
+
+ul
+{
+  list-style-type: none;
+}
+
+/* so I can use liquid loops in markdown lists */
+li p
+{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+span
+{
+  font-size: 87.5%;
+}
+p em
+{
+  float: left;
+  width: 20%;
+  padding-right: 1em;
+  text-align: right;
+}
+/* this is for the date in the post title */
+.post h1 em
+{
+  font-size: 50%;
+}
