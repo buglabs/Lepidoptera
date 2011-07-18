@@ -1,7 +1,12 @@
-app = require('express').createServer()
+express = require 'express'
+app = express.createServer()
 jade = require 'jade'
 http = require 'http'
 stream = null
+
+# for static pages
+app.use express.static(__dirname + '/public')
+app.use app.router
 
 swarm =
   id: '59c8f62e210812de2937d4700b6f751400546694'
@@ -11,20 +16,19 @@ swarm =
 
 # put /location/bugName with latitude and longitude in the request object
 app.put '/location/:bug', (req,res) ->
-  sendLocation req.latitude, req.longitude
+  sendLocation req.params.bug, req.latitude, req.longitude
 
 # get /location/bugName/latitude/longitude works too
 app.get '/location/:bug/:latitude,:longitude', (req, res) ->
-  sendLocation req.params.latitude, req.params.longitude
+  sendLocation req.params.bug, req.params.latitude, req.params.longitude
 
 # get /locations will show an updating map
 app.get '/locations', (req, res) ->
   watchMap req, res
 
 # sendLocation pushes out a new location for any bug
-sendLocation = (latitude, longitude) ->
-  console.log 'pushing out new location ' + latitude + ',' + longitude
-  stream.write JSON.stringify { latitude: latitude, longitude: longitude }
+sendLocation = (name, latitude, longitude) ->
+  stream.write JSON.stringify { name: name, latitude: latitude, longitude: longitude }
 
 # open the feed, whenever we get data send it through the socket
 openLocationFeed = ->
@@ -37,13 +41,9 @@ openLocationFeed = ->
     method: 'PUT'
     headers: {'X-BugSwarmApiKey': swarm.key }
 
-  console.log 'we made the options hash'
   stream = http.request options, (res) ->
-    console.log 'opening stream'
-
     setInterval ->
-      console.log 'setting interval'
-      sendLocation 40.0 + Math.random(), -73.0 + Math.random()
+      sendLocation swarm.id, 40.72498216901785 - 0.125 + (Math.random()/4), -73.99708271026611- 0.125 + (Math.random()/4)
       return
     , 5000
 
@@ -60,7 +60,7 @@ watchMap = (req, res) ->
 
     if error
       console.error 'error rendering jade'
-      console.error '  ' + err
+      console.error '  ' + error
     else
       res.write html
 

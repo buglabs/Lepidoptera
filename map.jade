@@ -3,26 +3,29 @@ html
   head
     title teh swaharm dehmo
 
-    // link(rel='stylesheet', type="text/css", media="screen, projection", href='screen.css' )
+    link(rel='stylesheet', type="text/css", media="screen, projection", href='screen.css' )
     
     script(src='http://api.bugswarm-dev/socket.io/socket.io.js')
     script(src='http://maps.google.com/maps/api/js?sensor=false')
 
   body
-    h1 android feet
+    h1 bug swarm fleetwatcher
     #map_canvas(style='width: 800px;height: 600px')
 
     :coffeescript
       window.initialize = ->
         console.log 'creating socketio server'
-        socket = io.connect 'http://api.bugswarm-dev/'
-        
+
+        try
+          socket = io.connect 'http://api.bugswarm-dev'
+        catch e
+          console.log 'exception: ' + e
+
         socket.on 'connect', ->
-          console.log 'connecting'
           socket.emit 'apikey', '58528a20ff7b4e08f71213cfbe22daffd8c3b3d3'
 
         socket.on 'message', (message) ->
-          console.log Date.now() + ': ' + message
+          addNewLocation JSON.parse message.message.body.data if message?.message?.body?.data?
 
         socket.on 'connected to backend', ->
           console.log 'connected'
@@ -38,24 +41,25 @@ html
         console.log 'creating map centered around BUG Labs'
         mapOptions = zoom: 12, center: new google.maps.LatLng(40.72498216901785, -73.99708271026611) , mapTypeId: google.maps.MapTypeId.ROADMAP
         mapCanvas = document.getElementById "map_canvas"
-        map = new google.maps.Map mapCanvas, mapOptions
+        mapGoogle = new google.maps.Map mapCanvas, mapOptions
           
-        addNewLocation = (data) ->
-          console.log 'adding new marker for data ' + data
+        markers = []
+
+        addNewLocation = (location) ->
+          console.log location.name
           marker = new google.maps.Marker
-            position: new google.maps.LatLng data.latitude, data.longitude
-            map: map
-            title: data.bug
-            html: "<strong>" + data.bug + "</strong>"
+            position: new google.maps.LatLng location.latitude, location.longitude
+            icon: "http://robohash.org/#{location.name}.png?size=40x40&set=set3"
+            map: mapGoogle
+            title: 'testbug'
     
-          infowindow = google.maps.InfoWindow content: data.bug
+          infowindow = new google.maps.InfoWindow { content: 'testbug' }
 
           google.maps.event.addListener marker, 'click', () ->
             infowindow.setContent this.html
-            infowindow.open map, this
+            infowindow.open mapGoogle, this
 
           markers.push marker
-        console.log 'end of my script'
 
     script(type='text/javascript')
       window.initialize()
