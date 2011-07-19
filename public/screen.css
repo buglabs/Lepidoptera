@@ -17,3 +17,16 @@ h1 {
   color: #ac4400;
 }
 
+body, html {
+  padding: 0px;
+  margin: 0 auto;
+  border: 0px none;
+  width: 100%;
+  height: 90%;
+}
+
+#map_canvas {
+  width: 100%;
+  height: 80%;
+}
+
