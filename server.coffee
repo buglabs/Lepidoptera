@@ -4,15 +4,22 @@ jade = require 'jade'
 http = require 'http'
 stream = null
 
+# for making requests
+class Options
+  constructor: ({@method, @path, @port, @host, @headers}) ->
+    @method ?= 'GET'
+    @port ?= 80
+    @host ?= 'api.bugswarm-dev'
+    @headers ?= { 'X-BugSwarmApiKey': '58528a20ff7b4e08f71213cfbe22daffd8c3b3d3' }
+
 # for static pages
 app.use express.static(__dirname + '/public')
 app.use app.router
 
-swarm =
+swarms = []
+swarms.push {
   id: '59c8f62e210812de2937d4700b6f751400546694'
-  key: '58528a20ff7b4e08f71213cfbe22daffd8c3b3d3'
-  server: 'api.bugswarm-dev'
-  user: 'jedahan'
+}
 
 # put /location/bugName with latitude and longitude in the request object
 app.put '/location/:bug', (req,res) ->
@@ -34,12 +41,7 @@ sendLocation = (name, latitude, longitude) ->
 openLocationFeed = ->
   console.log 'opening location feed'
 
-  options =
-    host: swarm.server
-    port: 80
-    path: "/resources/producer1/feeds/location?swarm_id=#{swarm.id}"
-    method: 'PUT'
-    headers: {'X-BugSwarmApiKey': swarm.key }
+  options = new Option { method: 'PUT', path: "/resources/producer1/feeds/location?swarm_id=#{swarm.id}" }
 
   stream = http.request options, (res) ->
     setInterval ->
