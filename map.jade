@@ -46,12 +46,12 @@ html
         markers = []
 
         addNewLocation = (location) ->
-          console.log location.name
           marker = new google.maps.Marker
             position: new google.maps.LatLng location.latitude, location.longitude
             icon: "http://robohash.org/#{location.name}.png?size=40x40&set=set3"
             map: mapGoogle
-            title: 'testbug'
+            html: "<strong>#{location.name}</strong>"
+            title: location.name
     
           infowindow = new google.maps.InfoWindow { content: 'testbug' }
 
