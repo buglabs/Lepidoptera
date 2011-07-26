@@ -13,6 +13,21 @@
 #    etc...
 #
 
+#
+#### Installation
+#
+# To get Lepidoptera up and running, first make sure you have
+# [Node.js](http://nodejs.org/) (`brew install node`) and
+# [npm](http://npmjs.org) (`curl http://npmjs.org/install.sh | sh`).
+# Then, just:
+#
+#     npm install
+#     npm install supervisor -g
+#     supervisor src/*coffee
+#
+# Now browse `http://localhost/locations` to witness the magic
+#
+
 #### Server
 #
 # The webserver keeps a lightweight model of the swarm in memory, and is responsible
