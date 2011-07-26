@@ -1,11 +1,14 @@
-{exec} = require 'child_process'
+{spawn, exec} = require 'child_process'
+{log, error} = console; print = log
 
-task 'build', 'install the deps, run the server, open the documentation and apps', ->
-  exec 'npm install'
-  exec 'sudo npm install -g supervisor'
-  exec 'docco server.coffee'
-  exec 'supervisor -g server.coffee'
+shell = (cmds, callback) ->
+  cmds = [cmds] if Object::toString.apply(cmds) isnt '[object Array]'
+  exec(cmds.join(' && '), (err, stdout, stderr) ->
+    print trimStdout if trimStdout = stdout.trim()
+    error stderr.trim() if err
+    callback() if callback
+  )
 
-  console.log 'open docs/server.html'
-  console.log 'open http://localhost/locations'
-  return
+task 'docco', 'build the docs', ->
+  shell 'docco src/*coffee'
+  shell 'open docs/server.html'
