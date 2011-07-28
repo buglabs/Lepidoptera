@@ -12,8 +12,11 @@ html
     h1 bug swarm fleetwatcher
     #map_canvas
 
+   script
     :coffeescript
       window.initialize = ->
+        buglabs = { lat: 40.72498216901785, lon: -73.99708271026611 }
+
         console.log 'creating socketio server'
 
         try
@@ -39,10 +42,10 @@ html
 
   
         console.log 'creating map centered around BUG Labs'
-        mapOptions = zoom: 12, center: new google.maps.LatLng(40.72498216901785, -73.99708271026611) , mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapOptions = zoom: 12, center: new google.maps.LatLng(buglabs.lat, buglabs.lon) , mapTypeId: google.maps.MapTypeId.ROADMAP
         mapCanvas = document.getElementById "map_canvas"
         mapGoogle = new google.maps.Map mapCanvas, mapOptions
-          
+
         markers = []
 
         addNewLocation = (location) ->
@@ -52,7 +55,7 @@ html
             map: mapGoogle
             html: "<strong>#{location.name}</strong>"
             title: location.name
-    
+
           infowindow = new google.maps.InfoWindow { content: 'testbug' }
 
           google.maps.event.addListener marker, 'click', () ->
