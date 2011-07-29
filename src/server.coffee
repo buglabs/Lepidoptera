@@ -50,10 +50,19 @@ buglabs = { lat: 40.72498216901785, lon: -73.99708271026611 }
 # The internal swarm model contains a name, unique id and most importantly a handle to the stream
 #
 swarms = []
-swarms.push
-  id: '59c8f62e210812de2937d4700b6f751400546694'
-  name: 'fake'
-  stream: null
+addSwarm '59c8f62e210812de2937d4700b6f751400546694', 'fakeOne'
+
+#
+# **addSwarm** checks for duplicate swarms before adding one
+#
+addSwarm = (id, name) ->
+  if (name.id=1? for name in swarms)[0]
+    console.error 'swarm ' + id + ' already exists!'
+  else
+    swarms.push
+      id: id
+      name: name
+      stream: null
 
 #
 #### Routing / API
@@ -63,11 +72,16 @@ swarms.push
 # The server also supports a get request in the form of
 # `get /location/:swarm/:latitude/:longitude`
 #
+# To add a new swarm, do `get /swarm/add/:id/:name`
+#
 app.put '/location/:swarm_id', (req,res) ->
   sendLocation req.params.swarm_id, req.latitude, req.longitude
 
 app.get '/location/:swarm_id/:latitude,:longitude', (req, res) ->
   sendLocation req.params.swarm_id, req.params.latitude, req.params.longitude
+
+app.get '/swarm/add/:id/:name', (req,res) ->
+  addSwarm req.params.id, req.params.name
 
 #
 # To see a map of all the location feeds, `get /locations`

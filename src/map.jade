@@ -40,7 +40,14 @@ html
         socket.on 'error', (error) ->
           console.log 'ERROR: ' + JSON.stringify error
 
-  
+        socket.on 'presence', (who) ->
+          who = who.from.split('@')[0]
+          alive = who.type is 'available'
+
+          list_element = $ "##{who}" || $('#seen').append "<li id=#{who}>#{who}</li>"
+
+          list_element.attr class: alive? 'alive': 'dead'
+
         console.log 'creating map centered around BUG Labs'
         mapOptions = zoom: 12, center: new google.maps.LatLng(buglabs.lat, buglabs.lon) , mapTypeId: google.maps.MapTypeId.ROADMAP
         mapCanvas = document.getElementById "map_canvas"
