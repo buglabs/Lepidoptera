@@ -139,7 +139,6 @@ watchMap = (req, res) ->
     console.log 'rendering jade'
 
     if error
-      console.error 'error rendering jade'
       console.error '  ' + error
     else
       res.write html
