@@ -47,6 +47,12 @@ header = { 'X-BugSwarmApiKey': '58528a20ff7b4e08f71213cfbe22daffd8c3b3d3' }
 buglabs = { lat: 40.72498216901785, lon: -73.99708271026611 }
 
 #
+# Add a contains method to strings :)
+#
+String.prototype.contains = (it) ->
+  this.indexOf it is not -1
+
+#
 # The internal swarm model contains a name, unique id and most importantly a handle to the stream
 #
 swarms = []
@@ -93,24 +99,9 @@ app.get '/locations', (req, res) ->
 #
 # **sendLocation** pushes out a new location to a swarm
 sendLocation = (swarm_id, latitude, longitude) ->
-  swarm = swarms[id=swarm_id]
-  swarm.stream.write JSON.stringify { name: swarm.name, latitude: latitude, longitude: longitude }
-
-#
-# **openLocationFeed** starts the connection for each swarm stream if necessary.
-# A bonus feature, if your swarm name contains the word `fake` the server will start generating random data!
-#
-openLocationFeed = ->
-  console.log 'opening location feed'
-
   for swarm in swarms
-    swarm.stream ?= request.put
-      uri: "http://#{host}/resources/producer1/feeds/location?swarm_id=#{swarm.id}"
-      headers: header
-      (error, response, body) ->
-        swarm.stream.write '\n'
-        if swarm.name.contains 'fake'
-          startFakeStream swarm
+    if swarm.id is swarm_id
+      swarm.stream.write JSON.stringify { name: swarm.name, latitude: latitude, longitude: longitude }
 
 #
 # **startFakeStream** pushes out fake locations to a swarm every few seconds
@@ -124,6 +115,26 @@ startFakeStream = (swarm) ->
   setInterval ->
     sendLocation swarm.id, lat + Math.random() * size, lon + Math.random() * size
   , 5000
+
+
+#
+# **openLocationFeed** starts the connection for each swarm stream if necessary.
+# A bonus feature, if your swarm name contains the word `fake` the server will start generating random data!
+#
+openLocationFeed = ->
+  console.log 'opening location feed'
+
+  for swarm in swarms
+    console.log swarm
+    swarm.stream ?= request.put
+      uri: "http://#{host}/resources/producer1/feeds/location?swarm_id=#{swarm.id}"
+      headers: header
+      (error, response, body) ->
+        console.error '  ' + error if error?
+
+    swarm.stream.write '\n'
+    if swarm.name.contains 'fake'
+      startFakeStream swarm
 
 #
 # **watchMap** renders the frontend, displaying markers for each new location
