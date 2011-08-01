@@ -12,7 +12,6 @@ html
     h1 bug swarm fleetwatcher
     #map_canvas
 
-   script
     :coffeescript
       window.initialize = ->
         buglabs = { lat: 40.72498216901785, lon: -73.99708271026611 }
@@ -46,7 +45,7 @@ html
 
           list_element = $ "##{who}" || $('#seen').append "<li id=#{who}>#{who}</li>"
 
-          list_element.attr class: alive? 'alive': 'dead'
+          list_element.attr class: (alive? 'alive': 'dead')
 
         console.log 'creating map centered around BUG Labs'
         mapOptions = zoom: 12, center: new google.maps.LatLng(buglabs.lat, buglabs.lon) , mapTypeId: google.maps.MapTypeId.ROADMAP

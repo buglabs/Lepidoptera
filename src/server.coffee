@@ -50,7 +50,6 @@ buglabs = { lat: 40.72498216901785, lon: -73.99708271026611 }
 # The internal swarm model contains a name, unique id and most importantly a handle to the stream
 #
 swarms = []
-addSwarm '59c8f62e210812de2937d4700b6f751400546694', 'fakeOne'
 
 #
 # **addSwarm** checks for duplicate swarms before adding one
@@ -135,13 +134,15 @@ watchMap = (req, res) ->
   res.writeHead 200, "Content-Type": "text/html"
   setInterval ( -> res.write '\n'), 30000
 
-  jade.renderFile 'map.jade', (error, html) ->
+  jade.renderFile 'src/map.jade', (error, html) ->
     console.log 'rendering jade'
 
     if error
       console.error '  ' + error
     else
       res.write html
+
+addSwarm '59c8f62e210812de2937d4700b6f751400546694', 'fakeOne'
 
 app.use express.static(__dirname + '/public')
 app.use app.router
