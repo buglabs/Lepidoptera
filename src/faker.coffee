@@ -12,13 +12,15 @@
 express = require 'express'
 request = require 'request'
 uuid = require 'node-uuid'
+app = express.createServer()
 
 #### Constants
 #
 # host is the uri for the swarm server, header contains the api key for user
 
 host = 'api.bugswarm-dev'
-user = 'web_user'
+port = 8888
+user = 'producer1'
 header = { 'X-BugSwarmApiKey': '58528a20ff7b4e08f71213cfbe22daffd8c3b3d3' }
 
 # constants for faking location and mpg
@@ -47,7 +49,7 @@ app.get '/resources/:id/push/:latitude,:longitude,:mpg', (req, res) ->
 # returns the resource _id_
 
 app.get '/resources/new/:swarm', (req,res) ->
-  res.write addResource uuid().replace(/-/g, '') req.params.swarm
+  res.write addResource uuid().replace(/-/g, ''), req.params.swarm
 
 # start faking data for an existing resource
 
@@ -64,11 +66,13 @@ app.get '/resources/:id/unfake', (req, res) ->
 # **push** sends data through the stream
 
 push = (id, latitude, longitude, mpg) ->
-  for resources["#{id}"]?.stream?.write JSON.stringify { latitude: latitude, longitude: longitude, mpg: mpg }
+  console.log "pushing #{mpg}@#{latitude},#{longitude} from #{id}"
+  resources["#{id}"]?.stream?.write JSON.stringify { latitude: latitude, longitude: longitude, mpg: mpg }
 
 # **addResource** creates a new resource and adds it to a swarm
 
 addResource = (id, swarm) ->
+  console.log "adding #{id} to #{swarm}"
   if resources["#{id}"]?
     console.error "Resource #{id} already exists!"
   else
@@ -86,12 +90,12 @@ addResource = (id, swarm) ->
 # **fakeTimer** creates a timer to push fake data out every few seconds
 
 fakeTimer = (id) ->
+  console.log "faking #{id}"
   setInterval ->
-    push id, lat + Math.random() * delta, lon + Math.random() * delta, mpg * Math.random()
-    , 5000
+    push id, lat + Math.random() * delta, lon + Math.random() * delta, Math.floor(mpg * Math.random())
+  , 5000
 
-app = express.createServer()
 
-addResource '59c8f62e210812de2937d4700b6f751400546694'
+addResource uuid().replace(/-/g, ''), '59c8f62e210812de2937d4700b6f751400546694'
 
 app.listen 3030
