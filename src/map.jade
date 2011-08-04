@@ -3,14 +3,25 @@ html
   head
     title teh swaharm dehmo
 
-    link(rel='stylesheet', type="text/css", media="screen, projection", href='screen.css' )
+    link(rel='stylesheet', type="text/css", media="screen, projection", href='/screen.css' )
 
     script(src='http://api.bugswarm-dev/socket.io/socket.io.js')
     script(src='http://maps.google.com/maps/api/js?sensor=false')
 
   body
     h1 bug swarm fleetwatcher
-    #map_canvas
+    #dashboard
+      #map_canvas
+      #sidebar
+        ul#swarms
+          li#swarm_1.alive swarm_1 (alive)
+            ul
+              li#resource_1.dead  resource_1 (dead)
+              li#resource_2.alive resource_2 (alive)
+          li#swarm_2.dead swarm_2 (dead)
+            ul
+              li#resource_3.alive resource_3 (alive)
+              li#resource_4.dead  resource_4 (dead)
 
     :coffeescript
       window.initialize = ->
@@ -27,23 +38,18 @@ html
           socket.emit 'apikey', '58528a20ff7b4e08f71213cfbe22daffd8c3b3d3'
 
         socket.on 'message', (message) ->
-          addNewLocation JSON.parse message.message.body.data if message?.message?.body?.data?
+          console.log "MESSAGE: #{JSON.parse message?.message}"
+          updateResource JSON.parse message?.message?.body?.data
 
         socket.on 'connected to backend', ->
           console.log 'connected'
-          socket.emit 'message', {presence: {to: '59c8f62e210812de2937d4700b6f751400546694@swarms.xmpp.bugswarm-dev/browser'}}
-
-        socket.on 'disconnect', ->
-          console.log 'disconnected'
-
-        socket.on 'error', (error) ->
-          console.log 'ERROR: ' + JSON.stringify error
-
+          socket.emit 'message', { presence: { to: '59c8f62e210812de2937d4700b6f751400546694@swarms.xmpp.bugswarm-dev/browser' } }
         socket.on 'presence', (who) ->
+          console.log "PRESENCE: #{who}"
           who = who.from.split('@')[0]
           alive = who.type is 'available'
 
-          list_element = $ "##{who}" || $('#seen').append "<li id=#{who}>#{who}</li>"
+          list_element = $ "##{who}" || $('#seen').append "<li id=#{who} class='resource' >#{who}</li>"
 
           list_element.attr class: (alive? 'alive': 'dead')
 
@@ -54,19 +60,21 @@ html
 
         markers = []
 
-        addNewLocation = (location) ->
-          marker = new google.maps.Marker
-            position: new google.maps.LatLng location.latitude, location.longitude
-            icon: "http://robohash.org/#{location.name}.png?size=40x40&set=set3"
-            map: mapGoogle
-            html: "<strong>#{location.name}</strong>"
-            title: location.name
+        updateResource = (resource) ->
+          console.log swarm = resource.body?.from.split('@')[0]
+          console.log m_swarm = resource.body?.from.split('/')[1]
 
-          infowindow = new google.maps.InfoWindow { content: 'testbug' }
+          marker = new google.maps.Marker
+            position: new google.maps.LatLng resource.body?.latitude, resource.body?.longitude
+            icon: "http://robohash.org/#{resource.body?.id}.png?size=40x40&set=set3"
+            map: mapGoogle
+            html: "<strong>#{resource.body?.mpg}</strong>"
+            title: resource.body?.name
 
           google.maps.event.addListener marker, 'click', () ->
-            infowindow.setContent this.html
-            infowindow.open mapGoogle, this
+            car = $ "##{resource.body?.id}" || $("#{resource.body?.from.split('/')[1]}").append resource
+            car.parent.expand
+            car.highlight
 
           markers.push marker
 
