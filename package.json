@@ -10,7 +10,8 @@
     "jade": "",
     "docco": "",
     "supervisor": "",
-    "coffee-script": ""
+    "coffee-script": "",
+    "node-uuid": ""
   }
 
 }
