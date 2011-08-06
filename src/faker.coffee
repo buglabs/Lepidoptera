@@ -118,4 +118,4 @@ fakeTimer = (resource_id) ->
 # we start with a randomly generated resource
 addResource uuid().replace(/-/g, ''), '59c8f62e210812de2937d4700b6f751400546694'
 
-app.listen 3030
+app.listen 80
