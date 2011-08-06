@@ -55,9 +55,8 @@ html
           console.log "  #{data}"
 
           // add the elements to the dom if not found and keep up to date
-          // FIXME: check that append goes inside instead of after
-          dom_swarm = $ "##{swarm}" || $("#swarms").append "<ul id=#{swarm} class='swarm'><ul>"
-          dom_resource = $ "##{resource}" || $("##{swarm}").append "<li id=#{resource}>#{resource} (#{data.mpg} mpg)</li>"
+          dom_swarm = $ "##{swarm}" || $("#swarms").appendChild "<ul id=#{swarm} class='swarm'><ul>"
+          dom_resource = $ "##{resource}" || $("##{swarm}").appendChild "<li id=#{resource}>#{resource} (#{data.mpg} mpg)</li>"
 
           dom_resource.attr class: (alive? 'alive': 'dead')
 
