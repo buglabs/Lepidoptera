@@ -14,10 +14,19 @@ html
       #map_canvas
       #sidebar
         ul#swarms
+    #actions
 
     script
      :coffeescript
       window.initialize = ->
+
+        # List of swarms to track
+
+        swarms = []
+        swarms.push '59c8f62e210812de2937d4700b6f751400546694'
+
+        $ "#actions".appendChild "<a href=bugswarm.net:8888/resource/new/#{id}>Add to swarm #{index}</a>&nbsp;&nbsp;" if index for id, index in swarms
+
         buglabs = { lat: 40.72498216901785, lon: -73.99708271026611 }
 
         console.log 'creating socketio server'
