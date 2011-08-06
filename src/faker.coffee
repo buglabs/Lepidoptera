@@ -18,7 +18,7 @@ app = express.createServer()
 #
 # host is the uri for the swarm server, header contains the api key for user
 
-host = 'api.bugswarm-dev'
+host = 'bugswarm.net'
 port = 8888
 user = 'producer1'
 header = { 'X-BugSwarmApiKey': '58528a20ff7b4e08f71213cfbe22daffd8c3b3d3' }
