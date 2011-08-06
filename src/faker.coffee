@@ -23,13 +23,13 @@ port = 8888
 user = 'producer1'
 header = { 'X-BugSwarmApiKey': '58528a20ff7b4e08f71213cfbe22daffd8c3b3d3' }
 
-# constants for faking location and mpg
+# center latitude and longitude, max distance, and max mpg
 
-buglabs = { lat: 40.72498216901785, lon: -73.99708271026611 }
-delta = .25
-lat = (buglabs.lat - delta / 2)
-lon = (buglabs.lon - delta / 2)
-mpg = 70
+buglabs = { latitude: 40.72498216901785, longitude: -73.99708271026611 }
+max_distance = .25
+center_latitude = (buglabs.latitude - max_distance / 2)
+center_longitude = (buglabs.longitude - max_distance / 2)
+max_mpg = 70
 
 #### Resource Model
 #
@@ -40,32 +40,27 @@ resources = {}
 
 #### Routing / API
 #
-# push some fake data to an existing rersource
-
+# push some fake data to an existing resource
 app.get '/resources/:id/push/:latitude,:longitude,:mpg', (req, res) ->
   push req.params.id, req.params.latitude, req.params.longitude, req.params.mpg
 
 # create a new fake resource that will automatically start faking data
 # returns the resource _id_
-
 app.get '/resources/new/:swarm', (req,res) ->
   res.write addResource uuid().replace(/-/g, ''), req.params.swarm
 
 # start faking data for an existing resource
-
 app.get '/resources/:id/fake', (req, res) ->
   resources["#{req.params.id}"]?.timer ?= fakeTimer req.params.id
 
 # stop faking data for an existing resource
-
 app.get '/resources/:id/unfake', (req, res) ->
   clearInterval resources["#{req.params.id}"]?.timer
 
 #### Helper Methods
-#
-# **push** sends data through the stream
 
-push = (id, latitude, longitude, mpg) ->
+# **push** sends data through the stream
+push = (resource_id, latitude, longitude, mpg) ->
   console.log "pushing #{mpg}@#{latitude},#{longitude} from #{id}"
   resources["#{id}"]?.stream?.write JSON.stringify { latitude: latitude, longitude: longitude, mpg: mpg }
 
@@ -88,14 +83,14 @@ addResource = (id, swarm) ->
 
 
 # **fakeTimer** creates a timer to push fake data out every few seconds
-
-fakeTimer = (id) ->
-  console.log "faking #{id}"
+fakeTimer = (resource_id) ->
+  console.log "faking data for #{resource_id}"
   setInterval ->
-    push id, lat + Math.random() * delta, lon + Math.random() * delta, Math.floor(mpg * Math.random())
+    push resource_id, center_latitude + Math.random() * max_distance, center_longitude + Math.random() * max_distance, Math.floor(max_mpg * Math.random())
   , 5000
 
 
+# we start with a randomly generated resource
 addResource uuid().replace(/-/g, ''), '59c8f62e210812de2937d4700b6f751400546694'
 
 app.listen 3030
