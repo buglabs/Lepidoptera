@@ -16,8 +16,7 @@ html
         ul#swarms
     #actions
 
-    script
-     :coffeescript
+    :coffeescript
       window.initialize = ->
 
         # List of swarms to track
@@ -83,6 +82,7 @@ html
 
           # if you click on a resource, highlight it in the list!
           google.maps.event.addListener marker, 'click', () ->
+            console.log "time to highlight #{dom_resource}"
             dom_resource.parent.expand
             dom_resource.highlight
 
