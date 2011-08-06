@@ -62,25 +62,50 @@ app.get '/resources/:id/unfake', (req, res) ->
 # **push** sends data through the stream
 push = (resource_id, latitude, longitude, mpg) ->
   console.log "pushing #{mpg}@#{latitude},#{longitude} from #{id}"
-  resources["#{id}"]?.stream?.write JSON.stringify { latitude: latitude, longitude: longitude, mpg: mpg }
+  resources["#{resource_id}"]?.stream?.write JSON.stringify { latitude: latitude, longitude: longitude, mpg: mpg }
 
-# **addResource** creates a new resource and adds it to a swarm
+# **addResource** adds a resource to a swarm, creates a stream for that connection and starts pushing fake data
+addResource = (resource_id, swarm_id) ->
+  console.log "adding #{resource_id} to #{swarm_id}"
+  addResourceToSwarm resource_id, swarm_id if not resourceIsInSwarm resource_id
+  addResourceToFaker resource_id, swarm_id if not resources["#{resource_id}"]?
 
-addResource = (id, swarm) ->
-  console.log "adding #{id} to #{swarm}"
-  if resources["#{id}"]?
-    console.error "Resource #{id} already exists!"
-  else
-    resources["#{id}"] =
-      timer: fakeTimer id
-      stream: request.put
-                uri: "http://#{host}/resources/#{user}/feeds/location?swarm_id=#{swarm}"
-                headers: header
-                (error, response, body) ->
-                  console.error '  ' + error if error?
-    resources["#{id}"]?.stream?.write '\n'
-  return id
+# **resourceIsInSwarm checks that a resource exists in a given swarm
+resourceIsInSwarm = (resource_id, swarm_id) ->
+  swarms =
+    JSON.parse
+      request.get
+        uri: "http://api.bugswarm.net/resources/#{resource_id}/swarms"
+        headers: header
 
+  exists = false
+  exists = true if swarm.id is swarm_id for swarm in swarms
+  return exists
+
+# **addResourceToSwarm** adds a resource to a swarm
+addResourceToSwarm = (resource_id, swarm_id) ->
+  resource =
+    id: resource_id
+    user_id: jedahan
+    type: producer
+
+  request.post
+    uri: "http://#{host}/swarms/#{swarm_id}/resources"
+    headers: header
+    json: JSON.stringify resource
+    (error, response, body) ->
+      console.error "  #{error}" if error?
+
+# **addResourceToFaker** creates a handle to fake the data and start faking data if it does not exist
+addResourceToFaker = (resource_id, swarm_id) ->
+  resources["#{resource_id}"] =
+    timer: fakeTimer resource_id
+    stream: request.put
+              uri: "http://#{host}/resources/#{user}/feeds/location?swarm_id=#{swarm_id}"
+              headers: header
+              (error, response, body) ->
+                console.error "  #{error}" if error?
+  resources["#{resource_id}"]?.stream?.write '\n'
 
 # **fakeTimer** creates a timer to push fake data out every few seconds
 fakeTimer = (resource_id) ->
