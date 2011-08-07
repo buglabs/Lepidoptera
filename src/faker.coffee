@@ -58,10 +58,8 @@ app.get '/connect/:swarm', (req, res) ->
 # **push_data** sends data through the stream
 push_data = (swarm_id, latitude, longitude, mpg) ->
   console.log "push_data #{mpg}@#{latitude},#{longitude} to #{swarm_id}"
-  for connection in connections
-    console.log connection
-  #stream = connection.stream if connection.swarm is swarm_id for connection in connections
-  #stream.write(JSON.stringify({ latitude: latitude, longitude: longitude, mpg: mpg }))
+  stream = connection.stream if connection.swarm is swarm_id for connection in connections
+  stream.write(JSON.stringify({ latitude: latitude, longitude: longitude, mpg: mpg }))
 
 # **resourceIsInSwarm checks that a resource exists in a given swarm
 resourceIsInSwarm = (swarm_id) ->
@@ -106,7 +104,7 @@ startFakingData = (swarm_id) ->
 
 # **fakeTimer** creates a timer to push fake data out every few seconds
 fakeTimer = (swarm_id) ->
-  console.log "fakeTimer()"
+  console.log "fakeTimer(#{swarm_id})"
   setInterval ->
     push_data swarm_id, center_latitude + Math.random() * max_distance, center_longitude + Math.random() * max_distance, Math.floor(max_mpg * Math.random())
   , 5000
