@@ -105,7 +105,7 @@ startFakingData = (swarm_id) ->
   connections[connections.length-1].stream?.write '\n'
 
 # **fakeTimer** creates a timer to push fake data out every few seconds
-fakeTimer = ->
+fakeTimer = (swarm_id) ->
   console.log "fakeTimer()"
   setInterval ->
     push_data swarm_id, center_latitude + Math.random() * max_distance, center_longitude + Math.random() * max_distance, Math.floor(max_mpg * Math.random())
