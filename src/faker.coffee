@@ -96,7 +96,7 @@ startFakingData = (swarm_id) ->
   console.log "startFakingData(#{swarm_id})"
   connections.push
     swarm: swarm_id
-    timer: fakeTimer()
+    timer: fakeTimer swarm_id
     stream: request.put
       uri: "http://#{host}/resources/#{resource.id}/feeds/location?swarm_id=#{swarm_id}"
       headers: header
@@ -108,7 +108,7 @@ startFakingData = (swarm_id) ->
 fakeTimer = ->
   console.log "fakeTimer()"
   setInterval ->
-    push_data center_latitude + Math.random() * max_distance, center_longitude + Math.random() * max_distance, Math.floor(max_mpg * Math.random())
+    push_data swarm_id, center_latitude + Math.random() * max_distance, center_longitude + Math.random() * max_distance, Math.floor(max_mpg * Math.random())
   , 5000
 
 # **addResource** adds a resource to a swarm, creates a stream for that connection and starts pushing fake data
