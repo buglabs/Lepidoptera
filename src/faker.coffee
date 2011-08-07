@@ -57,7 +57,7 @@ app.get '/connect/:swarm', (req, res) ->
 
 # **push_data** sends data through the stream
 push_data = (swarm_id, latitude, longitude, mpg) ->
-  console.log "push_data #{mpg}@#{latitude},#{longitude} from #{resource_id}"
+  console.log "push_data #{mpg}@#{latitude},#{longitude} to #{swarm_id}"
   for connection in connections
     console.log connection
   #stream = connection.stream if connection.swarm is swarm_id for connection in connections
@@ -96,7 +96,7 @@ startFakingData = (swarm_id) ->
   console.log "startFakingData(#{swarm_id})"
   connections.push
     swarm: swarm_id
-    timer: fakeTimer
+    timer: fakeTimer()
     stream: request.put
       uri: "http://#{host}/resources/#{resource.id}/feeds/location?swarm_id=#{swarm_id}"
       headers: header
