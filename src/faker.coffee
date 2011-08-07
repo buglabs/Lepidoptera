@@ -47,7 +47,7 @@ swarms.push 'b66dbbc74e2b1de4bde41bf353ceeb85cdd36bb6'
 #
 # push some fake data to a swarm
 app.get '/swarms/:swarm_id/push/:latitude,:longitude,:mpg', (req, res) ->
-  push req.params.swarm_id, req.params.latitude, req.params.longitude, req.params.mpg
+  push_data req.params.swarm_id, req.params.latitude, req.params.longitude, req.params.mpg
 
 # create a new fake connection that will automatically start faking data
 app.get '/connect/:swarm', (req, res) ->
