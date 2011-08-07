@@ -47,17 +47,19 @@ html
         #  update the location and mpg
         socket.on 'message', (message) ->
           console.log message
-          console.log JSON.stringify message
+          data = JSON.parse message.message
+          console.log "data: #{JSON.stringify data}"
           if message.presence?
             swarm = message.presence.from?.split('@')[0]
             dom_swarm = $ "##{swarm}" || $("#swarms").append "<ul id=#{swarm} class='swarm'>#{swarm}</ul>"
+            console.log "swarm: #{swarm}, dom_swarm: #{dom_swarm}"
 
-          if message.body?
-            resource = message?.body?.from?.split('/')[1].split('-')[1]
-            alive = message?.body?.type is 'available '
-            data = message?.message?.body?.data
+          if data.body?
+            resource = message.from?.split('/')[1].split('-')[1]
+            alive = message.body?.type is 'available '
+            location = data.body
             console.log "message from #{alive} #{resource} in swarm #{swarm}:"
-            console.log "  #{data}"
+            console.log "  #{location}"
 
             # add the elements to the dom if not found and keep up to date
             dom_resource = $ "##{resource}" || $("##{swarm}").append "<li id=#{resource}>#{resource} (#{data.mpg} mpg)</li>"
@@ -68,7 +70,7 @@ html
 
         socket.on 'connected to backend', ->
           console.log 'connected'
-          socket.emit 'message', { presence: { to: "#{swarms[0]}@107.20.250.52/web" } }
+          socket.emit 'message', { presence: { to: "#{swarms[0]}@swarms.bugswarm.net/web" } }
 
         console.log 'creating map centered around BUG Labs'
         mapOptions = zoom: 12, center: new google.maps.LatLng(buglabs.lat, buglabs.lon) , mapTypeId: google.maps.MapTypeId.ROADMAP

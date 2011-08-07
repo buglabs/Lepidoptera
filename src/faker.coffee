@@ -28,9 +28,9 @@ max_mpg = 70
 resource =
   id: '6f1002ac6b364323a050339b4c4bea6b'
   user_id: "jedahan"
-  name: "fake"
+  name: "web"
   type: "producer"
-  description: "test"
+  description: "web"
   machine_type: "bug"
 
 # the list of connections
@@ -57,10 +57,10 @@ app.get '/connect/:swarm', (req, res) ->
 
 # **push_data** sends data through the stream
 push_data = (swarm_id, latitude, longitude, mpg) ->
-  console.log "push_data #{mpg}@#{latitude},#{longitude} to #{swarm_id}"
   stream = connection.stream if connection.swarm is swarm_id for connection in connections
-  data = {latitude: latitude, longitude: longitude, mpg: mpg}
-  stream.write JSON.stringify data
+  data = JSON.stringify { latitude: latitude, longitude: longitude, mpg: mpg }
+  console.log data
+  stream.write data
 
 # **resourceIsInSwarm checks that a resource exists in a given swarm
 resourceIsInSwarm = (swarm_id) ->
@@ -93,15 +93,16 @@ addConnection = (swarm_id) ->
 # **startFakingData** starts sending data to a feed
 startFakingData = (swarm_id) ->
   console.log "startFakingData(#{swarm_id})"
+
   connections.push
     swarm: swarm_id
     timer: fakeTimer swarm_id
     stream: request.put
-      uri: "http://#{host}/resources/#{resource.id}/feeds/location?swarm_id=#{swarm_id}"
+      uri: "http://#{host}/resources/#{resource.name}/feeds/location?swarm_id=#{swarm_id}"
       headers: header
       (error, response, body) ->
         console.error "  #{error}" if error?
-  connections[connections.length-1].stream?.write 'hello swarm!\n'
+        connections[connections.length-1].stream?.write 'hello swarm!\n'
 
 # **fakeTimer** creates a timer to push fake data out every few seconds
 fakeTimer = (swarm_id) ->
