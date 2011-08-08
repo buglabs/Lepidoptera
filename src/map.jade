@@ -30,7 +30,7 @@ html
 
         buglabs = { lat: 40.72498216901785, lon: -73.99708271026611 }
 
-        console.log 'creating socketio server'
+        console.log 'connecting to swarm'
 
         try
           socket = io.connect 'http://107.20.250.52'
@@ -39,6 +39,7 @@ html
 
         socket.on 'connect', ->
           socket.emit 'apikey', 'eae9f2188a375c4635138928b93c4b9f97d30803'
+          console.log 'connected'
 
         # on any message
         #  check that the swarm exists, if not, add it to the dom
@@ -46,33 +47,30 @@ html
         #  set the correct class for that resource to show presence
         #  update the location and mpg
         socket.on 'message', (message) ->
-          console.log message
-          data = JSON.parse message.message
-          console.log "data: #{JSON.stringify data}"
-          if message.presence?
-            swarm = message.presence.from?.split('@')[0]
-            dom_swarm = $ "##{swarm}" || $("#swarms").append "<ul id=#{swarm} class='swarm'>#{swarm}</ul>"
-            console.log "swarm: #{swarm}, dom_swarm: #{dom_swarm}"
+          swarm = ""
+          dom_swarm = ""
+          if message?.presence?
+            swarm = message.presence.from.split('@')[0]
+            dom_swarm = $("##{swarm}")[0] || $("#swarms").append "<ul id=#{swarm} class='swarm'>#{swarm}</ul>"
+          else
+            resource = message.message.from?.split('/')[1]
+            if resource?
+              data = message.message.body
+              dom_resource = $("##{resource}") || $("##{swarm}").append "<li id=#{resource}>#{resource} (#{data.mpg} mpg)</li>"
+              dom_resource.attr class: (alive? 'alive': 'dead')
 
-          if data.body?
-            resource = message.from?.split('/')[1].split('-')[1]
-            alive = message.body?.type is 'available '
-            location = data.body
-            console.log "message from #{alive} #{resource} in swarm #{swarm}:"
-            console.log "  #{location}"
+              alive = data.body?.type is 'groupchat'
+              location = data.body
 
-            # add the elements to the dom if not found and keep up to date
-            dom_resource = $ "##{resource}" || $("##{swarm}").append "<li id=#{resource}>#{resource} (#{data.mpg} mpg)</li>"
+              console.log "#{alive} #{resource} @ #{swarm}: #{data}"
 
-            dom_resource.attr class: (alive? 'alive': 'dead')
-
-            updateResource dom_resource, data
+              updateResource dom_resource, data
 
         socket.on 'connected to backend', ->
-          console.log 'connected'
           socket.emit 'message', { presence: { to: "#{swarms[0]}@swarms.bugswarm.net/web" } }
+          console.log 'connected to backend'
 
-        console.log 'creating map centered around BUG Labs'
+        console.log "rendering map"
         mapOptions = zoom: 12, center: new google.maps.LatLng(buglabs.lat, buglabs.lon) , mapTypeId: google.maps.MapTypeId.ROADMAP
         mapCanvas = document.getElementById "map_canvas"
         mapGoogle = new google.maps.Map mapCanvas, mapOptions
@@ -80,6 +78,7 @@ html
         markers = []
 
         updateResource = (dom_resource, data) ->
+          console.log "updating #{JSON.stringify dom_resource[0]} with #{data}"
           marker = new google.maps.Marker
             position: new google.maps.LatLng data.latitude, data.longitude
             icon: "http://robohash.org/#{data.id}.png?size=40x40&set=set3"
@@ -89,9 +88,9 @@ html
 
           # if you click on a resource, highlight it in the list!
           google.maps.event.addListener marker, 'click', () ->
-            console.log "time to highlight #{dom_resource}"
-            dom_resource.parent.expand
-            dom_resource.highlight
+            alert "time to highlight"
+            #dom_resource.parent.expand
+            #dom_resource.highlight
 
           markers.push marker
 

@@ -98,7 +98,7 @@ startFakingData = (swarm_id) ->
     swarm: swarm_id
     timer: fakeTimer swarm_id
     stream: request.put
-      uri: "http://#{host}/resources/#{resource.name}/feeds/location?swarm_id=#{swarm_id}"
+      uri: "http://#{host}/resources/#{resource.user_id}/feeds/location?swarm_id=#{swarm_id}"
       headers: header
       (error, response, body) ->
         console.error "  #{error}" if error?
