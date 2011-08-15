@@ -1,27 +1,48 @@
-body, html {
-  padding: 0px;
-  margin: 0 auto;
-  background-color: #262626;
-  font-family: 'Cabin', sans-serif;
-  background-image: url("../images/bs_bgn_swarms.gif");
+body {
+  	padding: 0px;
+  	margin: 0 auto;
+  	background-color: #CFCFCF;
+  	font-family: 'Cabin', sans-serif;
+  	background-image: url("../images/bs_bgn_body.jpg");
+  	background-repeat: repeat-x;
+ }
+
+#over_bgn {
+	position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    background-image:url(../images/bs_bgn_swarms.gif);
+    background-position:top center;
+    opacity:.1;
+    filter:alpha(opacity=10);
+    z-index: -1;
+}
+
+#container {
+	width: 1200px;
+	height: 720px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 25px;
 }
 
 #header {
-	width: 950px;
-	margin-left: auto;
-	margin-right: auto;
+	width: 1200px;
 	height: 125px;
 }
 
-#header_titles {
+#header #titles {
 	float: left;
 	color: #F7D54C;
 	height: 115px;
-	width: 800px;
+	width: 1050px;
 	margin-top: 2px;
 	text-shadow: 2px 2px 10px #000;
 	margin-bottom: 2px;
 	border: 2px solid #656565;
+	
 	background: #212121; /* Old browsers */
 	background: -moz-linear-gradient(top, #212121 0%, #161616 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#212121), color-stop(100%,#161616)); /* Chrome,Safari4+ */
@@ -32,25 +53,24 @@ body, html {
 	background: linear-gradient(top, #212121 0%,#161616 100%); /* W3C */
 }
 
-#header_titles>h1 {
+#header #titles h1 {
 	margin-bottom: 8px;
 	margin-left: 10px;
 }
 
-#header_titles>h2 {
+#header #titles h2 {
+	margin-top: 0px;
 	margin-left: 10px;
 }
 
-#header_titles>h2 {
-	margin-top: 0px;
-}
-
-#header_links {
+#header .links {
 	float: right;
 	height: 100%;
+	margin-top: 3px;
+	
 }
 
-#buglabs_link {
+#header .links #buglabs {
 	background-image: url("../images/buglabs_logo.png");
 	background-repeat:no-repeat;
 	width:141px;
@@ -61,14 +81,14 @@ body, html {
 	overflow:hidden;
 }
 
-#buglabs_link a {
+#header .links #buglabs a {
 	text-indent:-1000px;
 	float:left;
 	width:100%;
 	height:105px;
 }
 
-#motto {
+#header .links #motto {
 	font-size: 14px;
 	padding: 0px;
 	width: 140px;
@@ -78,28 +98,27 @@ body, html {
 	color: #FFFFFF;
 }
 
-h4 {
+#header .links #motto h4 {
 	margin-top: 2px;
 	margin-left: 5px;
 }
 
-#dashboard {
-  width: 950px;
-  height: 650px;
-  margin-left: auto;
-  margin-right: auto;
-  border: 2px solid black;
+#content {
+  	width: 1200px;
+  	height: 585px;
+  	margin-top: 10px;
+  	border: 2px solid black;
 }
 
-#map_canvas {
-  	width: 670px;
+#content #map {
+  	width: 920px;
   	height: 100%;
  	float: left;
  	margin-left: auto;
  	margin-right: auto;
 }
 
-#pipe {
+#content #pipe {
 	width: 10px;
 	height: 100%;
 	background-color: blue;
@@ -117,32 +136,33 @@ h4 {
 	margin-left: auto;
 	margin-right: auto;
 	height: 100px;
-	width: 950px;
+	width: 1200px;
 }
 
-#footer_links {
+#footer .links {
 	float: right;
 	margin-top: 5px;
 }
 
-#magic {
+#footer .links #magic {
 	text-decoration: none;
 	color: #707070;
 }
 
-#magic:hover {
+#footer .links #magic:hover {
 	color: #FFFFFF;
 }
 
-#footer_copyright {
+#footer #copyright {
 	float: left;
 	margin: 0px;
 	padding: 0px;
 	height: 10px;
 	font-size: 12px;
-	color: #F7D54C;
+	color: #161616;
 }
 
+/*Drop Shadow Objects*/
 .shadow {
 	-moz-box-shadow: 0px 0px 15px #000;
 	-webkit-box-shadow: 0px 0px 15px #000;
@@ -154,9 +174,8 @@ h4 {
 }
 
 
-/*SIDEBAR AND ACCORDION MENU*/
-
-#sidebar {
+/*Sidebar and Accordion Menu*/
+#content #sidebar {
   	width: 270px;
   	height: 100%;
   	float: right;
