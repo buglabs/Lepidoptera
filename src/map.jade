@@ -1,84 +1,36 @@
-!!! 5
 html
   head
-    title teh swaharm dehmo
-
-    link(rel='stylesheet', type="text/css", media="screen, projection", href='/screen.css' )
-
-    script(src='http://107.20.250.52/socket.io/socket.io.js')
-    script(src='http://maps.google.com/maps/api/js?sensor=false')
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js')
-
+    title Lepidoptera | BUGSwarm Fleetwatcher
+    link(href="public/stylesheets/style.css" type="text/css" rel="stylesheet")
+    link(type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Cabin")
+    script(type="text/javascript" src="http://107.20.250.52/socket.io/socket.io.js") 
+    script(type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false") 
+    script(type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js") 
+    script(type="text/javascript" src="public/javascript/menu.js") 
+    script(type="text/javascript" src="public/javascript/main.js") 
   body
-    h1 bug swarm fleetwatcher
-    #dashboard
-      #map_canvas
-      #sidebar
-        ul#swarms
-    #actions
-      a(href='bugswarm.net:33/add') hit for magic
-
-    :coffeescript
-      window.initialize = ->
-
-        # List of swarms to track
-
-        swarms = []
-
-        swarms.push '142424f0919542c4fb60bbda4a254be645396ee9'
-        swarms.push 'b66dbbc74e2b1de4bde41bf353ceeb85cdd36bb6'
-
-        buglabs = { lat: 40.72498216901785, lon: -73.99708271026611 }
-
-        console.log 'connecting to swarm'
-
-        try
-          socket = io.connect 'http://107.20.250.52'
-        catch e
-          console.log 'exception: ' + e
-
-        socket.on 'connect', ->
-          socket.emit 'apikey', 'eae9f2188a375c4635138928b93c4b9f97d30803'
-          console.log 'connected'
-
-        socket.on 'message', (message) ->
-          swarm = message.message.from.split('@')[0]
-          dom_swarm = $("##{swarm}")[0] || $("#swarms").append "<li>#{swarm}<ul id=#{swarm} class='swarm'></ul></li>"
-
-          resource = message.message?.from?.split('/')[1]
-          if resource?
-            dom_resource = $("##{resource}")[0] || $("##{swarm}").append "<li id=#{resource}>#{resource[0..5]}</li>"
-
-            data = JSON.parse message.message.body.data
-            $("##{resource}").replaceWith  "<li id=#{resource}>#{resource[0..5]} (#{data.mpg})</li>"
-
-            updateResource dom_resource, data, resource
-
-        socket.on 'connected to backend', ->
-          for swarm in swarms
-            socket.emit 'message', { presence: { to: "#{swarm}@swarms.bugswarm.net/web" } }
-          console.log 'connected to backend'
-
-        console.log "rendering map"
-        mapOptions = zoom: 12, center: new google.maps.LatLng(buglabs.lat, buglabs.lon) , mapTypeId: google.maps.MapTypeId.ROADMAP
-        mapCanvas = document.getElementById "map_canvas"
-        mapGoogle = new google.maps.Map mapCanvas, mapOptions
-
-        markers = []
-
-        updateResource = (dom_resource, data, resource) ->
-          console.log "updating #{dom_resource} with #{JSON.stringify data}"
-          marker = new google.maps.Marker
-            position: new google.maps.LatLng data.latitude, data.longitude
-            icon: "http://robohash.org/#{resource}.png?size=40x40&set=set3"
-            map: mapGoogle
-            html: "<strong>#{data.mpg}</strong>"
-            title: data.name
-
-          # if you click on a resource, highlight it in the list!
-          google.maps.event.addListener marker, 'click', () ->
-
-          markers.push marker
-
-    script(type='text/javascript')
-      window.initialize()
+    #over_bgn
+    #container
+      #header
+        #titles.shadow
+          h1 Lepidoptera:
+          h2 BUGSwarm Fleetwatcher
+        .links
+          h3#buglabs.shadow
+            a(href="http://buglabs.net") Buglabs
+          #motto
+            h4 Build. Connect. Share
+      #content.shadow
+        #map
+        #pipe
+        #sidebar
+          ul.menu.noaccordion
+      #footer
+        .links
+          a#magic(name="magic" href="bugswarm.net:33/add") Click for Magic!
+        #copyright
+          p © Bug Labs, Inc.
+    script(type="text/javascript")
+      | //
+      | window.initialize()
+      | //
