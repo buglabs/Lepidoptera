@@ -37,7 +37,7 @@ body {
 	float: left;
 	color: #F7D54C;
 	height: 115px;
-	width: 1050px;
+	width: 87.5%;
 	margin-top: 2px;
 	text-shadow: 2px 2px 10px #000;
 	margin-bottom: 2px;
@@ -65,9 +65,9 @@ body {
 
 #header .links {
 	float: right;
-	height: 100%;
+	height: 85%;
+	width: 12%;
 	margin-top: 3px;
-	
 }
 
 #header .links #buglabs {
@@ -79,6 +79,8 @@ body {
 	top:0px;
 	left:0px;
 	overflow:hidden;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #header .links #buglabs a {
@@ -88,19 +90,14 @@ body {
 	height:105px;
 }
 
-#header .links #motto {
-	font-size: 12px;
-	padding: 0px;
-	width: 141px;
-	height: 10px;
+#header #motto {
+	height: 15%;
+	width: 12%;
+	font-size: 15px;
+	margin-left: auto;
+	margin-right: auto;
 	float: right;
-	margin-bottom: 10px;
-	color: #FFFFFF;
-}
-
-#header .links #motto h4 {
-	margin-top: 2px;
-	margin-left: 5px;
+	color: white;
 }
 
 #content {
@@ -150,7 +147,7 @@ body {
 }
 
 #footer .links #magic:hover {
-	color: #FFFFFF;
+	color: #000000;
 }
 
 #footer #copyright {
