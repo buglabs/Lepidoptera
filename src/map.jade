@@ -3,11 +3,11 @@ html
     title Lepidoptera | BUGSwarm Fleetwatcher
     link(href="public/stylesheets/style.css" type="text/css" rel="stylesheet")
     link(type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Cabin")
-    script(type="text/javascript" src="http://107.20.250.52/socket.io/socket.io.js") 
-    script(type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false") 
-    script(type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js") 
-    script(type="text/javascript" src="public/javascript/menu.js") 
-    script(type="text/javascript" src="public/javascript/main.js") 
+    script(src="http://107.20.250.52/socket.io/socket.io.js") 
+    script(src="http://maps.google.com/maps/api/js?sensor=false") 
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js") 
+    script(src="public/javascript/menu.js") 
+    script(src="public/javascript/main.js") 
   body
     #over_bgn
     #container
@@ -18,8 +18,7 @@ html
         .links
           h3#buglabs.shadow
             a(href="http://buglabs.net") Buglabs
-          #motto
-            h4 Build. Connect. Share
+          #motto Build. Connect. Share
       #content.shadow
         #map
         #pipe
@@ -30,7 +29,5 @@ html
           a#magic(name="magic" href="bugswarm.net:33/add") Click for Magic!
         #copyright
           p © Bug Labs, Inc.
-    script(type="text/javascript")
-      | //
-      | window.initialize()
-      | //
+    script
+      window.initialize()
