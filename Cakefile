@@ -15,6 +15,7 @@ task 'docco', 'build the docs', ->
 
 task 'run', 'update the dependencies and run the application', ->
   shell 'npm up'
+  shell 'coffee -c src/public/javascript/main.coffee'
   shell 'sudo supervisor src/*coffee', (error, stdout, stderr) ->
     console.log "stdout: #{stdout}"
     console.log "stderr: #{stderr}"
