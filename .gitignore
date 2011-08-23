@@ -5,3 +5,4 @@ swarm.json
 .DS_Store
 docs
 src/public/javascript/main.js
+test_?.json
