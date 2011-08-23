@@ -6,6 +6,7 @@ http = require 'http'
 express = require 'express'
 uuid = require 'node-uuid'
 app = express.createServer()
+config = JSON.parse require('fs').readFileSync './config.json', 'utf8'
 
 #### Constants
 
@@ -20,8 +21,7 @@ max_mpg = 70
 # the list of swarms we are interested in
 
 swarms = []
-swarms.push '142424f0919542c4fb60bbda4a254be645396ee9'
-swarms.push 'b66dbbc74e2b1de4bde41bf353ceeb85cdd36bb6'
+swarms.push id for id in config.swarms
 
 #### Routing / API
 #
@@ -34,15 +34,14 @@ app.get '/add', (req, res) ->
 # **addResource** creates a feed for a swarm and starts pushing fake data
 addResource = ->
   swarm_id = swarms[Math.floor(Math.random() * 2)]
-  console.log swarm_id
   resource_id = uuid().replace(/-/g,'')
 
   options =
-    host: '107.20.250.52'
+    host: config.host
     port: 80
     path: "/resources/#{resource_id}/feeds/location?swarm_id=#{swarm_id}"
     method: 'PUT'
-    headers: { 'X-BugSwarmApiKey': 'eae9f2188a375c4635138928b93c4b9f97d30803'}
+    headers: { 'X-BugSwarmApiKey': config.api_key }
 
   req = http.request options, (res) ->
     interval = setInterval ->

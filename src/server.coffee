@@ -31,6 +31,7 @@
 express = require 'express'
 app = express.createServer()
 jade = require 'jade'
+config = JSON.parse require('fs').readFileSync './config.json', 'utf8'
 
 #### Routing
 #
@@ -41,7 +42,9 @@ app.get '/locations', (req, res) ->
   res.writeHead 200, "Content-Type": "text/html"
   setInterval ( -> res.write '\n'), 30000
 
-  jade.renderFile 'src/map.jade', (error, html) ->
+  options = locals: { config: config }
+
+  jade.renderFile 'src/map.jade', options, (error, html) ->
     console.log 'rendering jade'
 
     if error

@@ -1,0 +1,10 @@
+ {
+   "host": "api.bugswarm.net"
+ , "user": "jedahan"
+ , "password": "whkhomwablc33b"
+ , "api_key": "25e16a386a75cecee376a4c25dd289fa46ce5878"
+ , "swarms": [
+     "a7c8d39ae307d54939753a49b35dad256862703d"
+   , "52358d09ca66b412641031788d2bad3017b85951"
+   , "2e801c4400b69c801d43cb49e0cd666737e8670c"]
+}

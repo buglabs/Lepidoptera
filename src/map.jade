@@ -3,7 +3,11 @@ html
   head
     title Lepidoptera | BUGSwarm Fleetwatcher
 
-    link(href="public/stylesheets/style.css", type="text/css", rel="stylesheet")
+    // expose the config variable
+    script
+      var config = !{JSON.stringify(config)}
+
+    link(href="/stylesheets/screen.css", type="text/css", rel="stylesheet")
     link(href="http://fonts.googleapis.com/css?family=Cabin", type="text/css", rel="stylesheet")
 
     script(src="http://107.20.250.52/socket.io/socket.io.js")
