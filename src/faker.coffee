@@ -48,7 +48,7 @@ addResource = ->
         feed =
           latitude: center_latitude + Math.random() * max_distance
           longitude: center_longitude + Math.random() * max_distance
-          mpg: Math.floor(max_mpg * Math.random())
+          mpg: Math.floor(Math.random() * max_mpg)
         req.write JSON.stringify feed
       , 5000
   req.write '\n'
