@@ -1,8 +1,10 @@
- {
+{
    "host": "api.bugswarm.net"
  , "user": "jedahan"
  , "password": "whkhomwablc33b"
- , "api_key": "25e16a386a75cecee376a4c25dd289fa46ce5878"
+ , "master_key": "69c44fefe0364cd5f4d2bde6c4e9393e427d354b"
+ , "consumer_key": "55ff50a5ac5b42385554ba4c9a7b850b8a11878a"
+ , "produser_key": "f53a665c025d3ca2be808ba01bdd6ce121d0ae2c"
  , "swarms": [
      "a7c8d39ae307d54939753a49b35dad256862703d"
    , "52358d09ca66b412641031788d2bad3017b85951"

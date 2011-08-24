@@ -26,14 +26,19 @@ swarms.push id for id in config.swarms
 #### Routing / API
 #
 # create a new fake connection that will automatically start faking data
-app.get '/add', (req, res) ->
+app.get '/add/:swarm', (req, res) ->
   addResource req.params.swarm
 
 #### Helpers
 #
 # **addResource** creates a feed for a swarm and starts pushing fake data
-addResource = ->
-  swarm_id = swarms[Math.floor(Math.random() * 2)]
+addResource = (swarm) ->
+  if swarm?
+    swarm_id = swarm
+  else
+    swarm_id = swarms[Math.floor(Math.random() * 2)]
+
+  console.log "addResource(#{swarm_id})"
   resource_id = uuid().replace(/-/g,'')
 
   options =
@@ -41,7 +46,7 @@ addResource = ->
     port: 80
     path: "/resources/#{resource_id}/feeds/location?swarm_id=#{swarm_id}"
     method: 'PUT'
-    headers: { 'X-BugSwarmApiKey': config.api_key }
+    headers: { 'X-BugSwarmApiKey': config.producer_key }
 
   req = http.request options, (res) ->
     interval = setInterval ->

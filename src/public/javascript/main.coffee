@@ -14,7 +14,8 @@ window.initialize = ->
     else
       console.log "message: #{message}"
 
-  SWARM.join apikey: config.api_key, swarms: config.swarms, callback: (message) ->
+  console.log "consumer key: #{config.consumer_key}"
+  SWARM.join apikey: "#{config.consumer_key}", swarms: config.swarms, callback: (message) ->
     processMessage(message)
 
   addNewLocation = (location) ->
