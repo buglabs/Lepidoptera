@@ -54,6 +54,7 @@ addResource = (swarm) ->
           latitude: center_latitude + Math.random() * max_distance
           longitude: center_longitude + Math.random() * max_distance
           mpg: Math.floor(Math.random() * max_mpg)
+        console.log "writing #{JSON.stringify feed}"
         req.write JSON.stringify feed
       , 5000
   req.write '\n'

@@ -12,10 +12,11 @@ window.initialize = ->
     if message?.message?.body?.data?
       addNewLocation(JSON.parse message.message.body.data)
     else
-      console.log "message: #{message}"
+      console.log "message: #{JSON.stringify message}"
 
   console.log "consumer key: #{config.consumer_key}"
-  SWARM.join apikey: "#{config.consumer_key}", swarms: config.swarms, callback: (message) ->
+  console.log "swarms: #{config.swarms}"
+  SWARM.join apikey: "#{config.consumer_key}", swarms: "#{config.swarms}", callback: (message) ->
     processMessage(message)
 
   addNewLocation = (location) ->

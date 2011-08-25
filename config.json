@@ -1,12 +1,12 @@
 {
-   "host": "api.bugswarm.net"
+   "host": "bugswarm.net"
  , "user": "jedahan"
  , "password": "whkhomwablc33b"
- , "master_key": "69c44fefe0364cd5f4d2bde6c4e9393e427d354b"
- , "consumer_key": "55ff50a5ac5b42385554ba4c9a7b850b8a11878a"
- , "produser_key": "f53a665c025d3ca2be808ba01bdd6ce121d0ae2c"
+ , "master_key": "02f1703bf735003dabf14d64297daf4aaa8a8a14"
+ , "produser_key": "79ab5d326d9bcaeba4693d0955a98b483c796628"
+ , "consumer_key": "580a128c2014eccc9b9a69dae9a4a3bb3d487200"
  , "swarms": [
-     "a7c8d39ae307d54939753a49b35dad256862703d"
-   , "52358d09ca66b412641031788d2bad3017b85951"
-   , "2e801c4400b69c801d43cb49e0cd666737e8670c"]
+     "4b67ec983c401f16db1fbd43c4021919151e54b6"
+   , "3ccba47db591ad7ee83c18dbe75be2b3c863770b"
+   , "09506c4eb9dfee1d30de411ccc8b31b36542331f"]
 }
