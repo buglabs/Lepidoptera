@@ -9,14 +9,13 @@ window.initialize = ->
   markers = []
 
   processMessage = (message) ->
+    console.log "message: #{JSON.stringify message}"
     if message?.message?.body?.data?
       addNewLocation(JSON.parse message.message.body.data)
     else
       console.log "message: #{JSON.stringify message}"
 
-  console.log "consumer key: #{config.consumer_key}"
-  console.log "swarms: #{config.swarms}"
-  SWARM.join apikey: "#{config.consumer_key}", swarms: "#{config.swarms}", callback: (message) ->
+  SWARM.join apikey: "#{config.consumer_key}", swarms: JSON.stringify(config.swarms), callback: (message) ->
     processMessage(message)
 
   addNewLocation = (location) ->
