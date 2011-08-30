@@ -4,7 +4,6 @@
 
 http = require 'http'
 express = require 'express'
-uuid = require 'node-uuid'
 app = express.createServer()
 config = JSON.parse require('fs').readFileSync './config.json', 'utf8'
 
@@ -18,48 +17,41 @@ center_latitude = (buglabs.latitude - max_distance / 2)
 center_longitude = (buglabs.longitude - max_distance / 2)
 max_mpg = 70
 
-# the list of swarms we are interested in
-
-swarms = []
-swarms.push id for id in config.swarms
-
 #### Routing / API
 #
-# create a new fake connection that will automatically start faking data
+# start faking data to a random swarm
+app.get '/add', (req, res) ->
+  fakeData()
+
+# start faking data to a specific swarm
 app.get '/add/:swarm', (req, res) ->
-  addResource req.params.swarm
+  fakeData req.params.swarm
 
 #### Helpers
 #
-# **addResource** creates a feed for a swarm and starts pushing fake data
-addResource = (swarm) ->
-  if swarm?
+# **fakeData** pushes fake data to a swarm
+fakeData = (swarm) ->
+  if swarm? and config.swarms.indexOf(swarm) > -1
     swarm_id = swarm
   else
-    swarm_id = swarms[Math.floor(Math.random() * 2)]
-
-  console.log "addResource(#{swarm_id})"
-  resource_id = uuid().replace(/-/g,'')
+    swarm_id = config.swarms[Math.floor(Math.random() * config.swarms.length)]
 
   options =
     host: config.host
     port: 80
-    path: "/resources/#{resource_id}/feeds/location?swarm_id=#{swarm_id}"
+    path: "/resources/#{config.producer_name}/feeds/location?swarm_id=#{swarm_id}"
     method: 'PUT'
     headers: { 'X-BugSwarmApiKey': config.producer_key }
 
   req = http.request options, (res) ->
-    interval = setInterval ->
-        feed =
-          latitude: center_latitude + Math.random() * max_distance
-          longitude: center_longitude + Math.random() * max_distance
-          mpg: Math.floor(Math.random() * max_mpg)
-        console.log "writing #{JSON.stringify feed}"
-        req.write JSON.stringify feed
-      , 5000
+    setInterval ->
+      feed =
+        latitude: center_latitude + Math.random() * max_distance
+        longitude: center_longitude + Math.random() * max_distance
+        mpg: Math.floor(Math.random() * max_mpg)
+      req.write JSON.stringify feed
+    , 500
   req.write '\n'
 
-  , 5000
-
-addResource swarms[0]
+fakeData()
 app.listen 33
