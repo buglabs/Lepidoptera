@@ -50,7 +50,7 @@ fakeData = (swarm) ->
         longitude: center_longitude + Math.random() * max_distance
         mpg: Math.floor(Math.random() * max_mpg)
       req.write JSON.stringify feed
-    , 500
+    , 5000
   req.write '\n'
 
 fakeData()
