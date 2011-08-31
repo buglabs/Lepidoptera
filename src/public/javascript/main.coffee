@@ -8,17 +8,29 @@ window.initialize = ->
 
   markers = []
 
-  processMessage = (message) ->
+  SWARM.join apikey: "#{config.consumer_key}", swarms: config.swarms, callback: (message) ->
     console.log "message: #{JSON.stringify message}"
-    if message?.message?.body?.data?
-      addNewLocation(JSON.parse message.message.body.data)
-    else
-      console.log "message: #{JSON.stringify message}"
+    if message.message?.body?.data?
+      console.log "data: #{message.message.body.data}"
+      updateResource JSON.parse message.message.body.data
+    if message.presence?.type?
+      console.log "presence: #{JSON.stringify message.presence}"
+      updatePresence message.presence.from, message.presence.type
 
-  SWARM.join apikey: "#{config.consumer_key}", swarms: JSON.stringify(config.swarms), callback: (message) ->
-    processMessage(message)
+  updatePresence = (from, type) ->
+    alive = type is 'available'
+    swarm = from.split('@')[0]
+    resource = from.split('/')[1]
 
-  addNewLocation = (location) ->
+    console.log "#{resource} is #{alive}!"
+
+    # add the elements to the dom if not found and keep up to date
+    dom_swarm = $ "##{swarm}" || $("#swarms").append "<ul id=#{swarm} class='swarm'><ul>"
+    dom_resource = $ "##{swarm} > ##{resource}" || $("##{swarm}").append "<li id=#{resource}>#{resource} (#{data.mpg} mpg)</li>"
+
+    dom_resource.attr class: (alive? 'alive': 'dead')
+
+  updateResource = (location) ->
     marker = new google.maps.Marker
       position: new google.maps.LatLng location.latitude, location.longitude
       icon: "http://robohash.org/#{location.name}.png?size=40x40&set=set3"
