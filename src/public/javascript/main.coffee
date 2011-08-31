@@ -12,7 +12,7 @@ window.initialize = ->
     console.log "message: #{JSON.stringify message}"
     if message.message?.body?.data?
       console.log "data: #{message.message.body.data}"
-      updateResource JSON.parse message.message.body.data
+      updateResource message.message.from, JSON.parse message.message.body.data
     if message.presence?.type?
       console.log "presence: #{JSON.stringify message.presence}"
       updatePresence message.presence.from, message.presence.type
@@ -30,15 +30,15 @@ window.initialize = ->
 
     dom_resource.attr class: (alive? 'alive': 'dead')
 
-  updateResource = (location) ->
+  updateResource = (resource, data) ->
     marker = new google.maps.Marker
-      position: new google.maps.LatLng location.latitude, location.longitude
-      icon: "http://robohash.org/#{location.name}.png?size=40x40&set=set3"
+      position: new google.maps.LatLng data.latitude, data.longitude
+      icon: "http://robohash.org/#{resource}.png?size=40x40&set=set3"
       map: mapGoogle
-      html: "<strong>#{location.name}</strong>"
-      title: location.name
+      html: "<strong>#{resource}</strong>"
+      title: resource
 
-    infowindow = new google.maps.InfoWindow { content: 'testbug' }
+    infowindow = new google.maps.InfoWindow { content: resource }
 
     google.maps.event.addListener marker, 'click', () ->
       infowindow.setContent this.html
