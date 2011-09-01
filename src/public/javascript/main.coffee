@@ -1,36 +1,47 @@
 window.initialize = ->
   console.log "config: #{JSON.stringify config}"
 
-  console.log 'creating map centered around BUG Labs'
   mapOptions = zoom: 12, center: new google.maps.LatLng(40.72498216901785, -73.99708271026611) , mapTypeId: google.maps.MapTypeId.ROADMAP
   mapCanvas = document.getElementById "map_canvas"
   mapGoogle = new google.maps.Map mapCanvas, mapOptions
+  feed = 'location'
 
   markers = []
 
   SWARM.join apikey: "#{config.consumer_key}", swarms: config.swarms, callback: (message) ->
-    console.log "message: #{JSON.stringify message}"
+
+    #console.log "message: #{message}"
     if message.message?.body?.data?
-      console.log "data: #{message.message.body.data}"
-      updateResource message.message.from, JSON.parse message.message.body.data
+      resource = message.message.from?.split('/')[1]
+      updateResource resource, JSON.parse message.message.body.data
+
     if message.presence?.type?
-      console.log "presence: #{JSON.stringify message.presence}"
-      updatePresence message.presence.from, message.presence.type
+      #console.log "message.presence: #{JSON.stringify message.presence}"
+      swarm = message.presence.from?.split('@')[0]
+      resource = message.presence.from?.split('/')[1]
+      alive = message.presence.type is 'available'
+      if message.presence.from.indexOf('web') is -1
+        updatePresence swarm, resource, alive
 
-  updatePresence = (from, type) ->
-    alive = type is 'available'
-    swarm = from.split('@')[0]
-    resource = from.split('/')[1]
+  updatePresence = (swarm, resource, alive) ->
+    #console.log "updatePresence(#{swarm}, #{resource}, #{alive})"
 
-    console.log "#{resource} is #{alive}!"
+    # add the elements to the dom if not found
+    dom_resource = $("#resources > ##{resource}")[0] \
+      || $("#resources").append "<li id=#{resource}><a href=#>#{resource}</a><ul class='acitem'></ul></li>"
 
-    # add the elements to the dom if not found and keep up to date
-    dom_swarm = $ "##{swarm}" || $("#swarms").append "<ul id=#{swarm} class='swarm'><ul>"
-    dom_resource = $ "##{swarm} > ##{resource}" || $("##{swarm}").append "<li id=#{resource}>#{resource} (#{data.mpg} mpg)</li>"
+    # FIXME: better handling of feed class
+    dom_feed = $("##{resource} > .acitem > .#{feed}")[0] \
+      || $("##{resource} > .acitem").append "<li class='feed #{feed}'><a href=#>MPG: </a></li>"
 
-    dom_resource.attr class: (alive? 'alive': 'dead')
+    dom_resource.toggleClass 'alive', alive
+    dom_feed.toggleClass 'alive', alive
 
   updateResource = (resource, data) ->
+    #console.log "updateResource(#{resource}, #{data.mpg})"
+    # FIXME: make dynamic
+    $("##{resource} > .acitem > .#{feed} > a").replaceWith "<a href=#>MPG: #{JSON.stringify data.mpg}</a>"
+
     marker = new google.maps.Marker
       position: new google.maps.LatLng data.latitude, data.longitude
       icon: "http://robohash.org/#{resource}.png?size=40x40&set=set3"
