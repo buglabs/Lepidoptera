@@ -1,7 +1,6 @@
 {
    "host": "bugswarm.net"
  , "user": "jedahan"
- , "password": "whkhomwablc33b"
  , "master_key": "02f1703bf735003dabf14d64297daf4aaa8a8a14"
  , "producer_key": "79ab5d326d9bcaeba4693d0955a98b483c796628"
  , "consumer_key": "580a128c2014eccc9b9a69dae9a4a3bb3d487200"
