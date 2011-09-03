@@ -2,14 +2,6 @@
 #
 # **Lepidoptera** is an example solution built on top of [Swarm](http://github.com/buglabs/swarm).
 #
-# It is a visualization of fleet movement that can help to quickly
-# identify and answer high level questions like
-#
-#    * how many people are sleeping?
-#    * which drivers are the most efficient?
-#    * are there any areas that are more difficult to get to?
-#
-#    etc...
 
 #### Installation
 #
@@ -30,7 +22,6 @@
 
 express = require 'express'
 app = express.createServer()
-jade = require 'jade'
 config = JSON.parse require('fs').readFileSync './config.json', 'utf8'
 
 #### Routing
