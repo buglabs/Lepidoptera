@@ -39,7 +39,7 @@ fakeData = (swarm) ->
   options =
     host: config.host
     port: 80
-    path: "/resources/#{config.producer_name}/feeds/location?swarm_id=#{swarm_id}"
+    path: "/resources/#{config.producer_name}/feeds/mpg?swarm_id=#{swarm_id}"
     method: 'PUT'
     headers: { 'X-BugSwarmApiKey': config.producer_key }
 
