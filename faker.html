@@ -15,7 +15,19 @@
   <span class="nx">fakeData</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>To start faking data to a specific swarm, <code>GET /add/:swarm_id</code></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">app</span><span class="p">.</span><span class="nx">get</span> <span class="s1">&#39;/add/:swarm_id&#39;</span><span class="p">,</span> <span class="nf">(req, res) -&gt;</span>
   <span class="nx">fakeData</span> <span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">swarm_id</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <h3>Helpers</h3>
 
-<p><strong>fakeData</strong> pushes fake data to a swarm</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">fakeData = </span><span class="nf">(swarm) -&gt;</span>
+<p><strong>fakeData</strong> pushes fake data to a swarm</p>
+
+<p>Currently, it looks like</p>
+
+<p><code>PUT /resources/:producer_name/feeds/mpg?swarm_id=:swarm_id</code></p>
+
+<p><code>{ latitude: -25.1, longitude: 40.1, mpg: 42 }</code></p>
+
+<p>If you want to push other data, make sure the feed name and data field is the same, eg:</p>
+
+<p><code>PUT /resources/:producer_name/feeds/RPM?swarm_id=:swarm_id</code></p>
+
+<p><code>{ latitude: -25.1, longitude: 40.1, RPM: 2600 }</code></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">fakeData = </span><span class="nf">(swarm) -&gt;</span>
   <span class="k">if</span> <span class="nx">swarm</span><span class="o">?</span> <span class="o">and</span> <span class="nx">config</span><span class="p">.</span><span class="nx">swarms</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">swarm</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span>
     <span class="nv">swarm_id = </span><span class="nx">swarm</span>
   <span class="k">else</span>
