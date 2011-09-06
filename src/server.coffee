@@ -21,6 +21,8 @@
 # You will also want to look at [Faker](faker.html) which can create said magic
 
 express = require 'express'
+gzippo = require 'gzippo'
+
 app = express.createServer()
 config = JSON.parse require('fs').readFileSync './config.json', 'utf8'
 
@@ -33,6 +35,6 @@ app.set 'view options', { layout: false }
 app.get '/locations', (req, res) ->
   res.render 'map', locals: { config: config }
 
-app.use express.static(__dirname + '/public')
+app.use gzippo.staticGzip(__dirname + '/public')
 app.use app.router
 app.listen 80
