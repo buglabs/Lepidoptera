@@ -1,6 +1,7 @@
 #### Faker
 #
 # **Faker** is a library for sending fake data to a swarm
+#
 
 http = require 'http'
 express = require 'express'
@@ -8,7 +9,7 @@ app = express.createServer()
 config = JSON.parse require('fs').readFileSync './config.json', 'utf8'
 
 #### Constants
-
+#
 # center latitude and longitude, max distance, and max mpg
 
 buglabs = { latitude: 40.72498216901785, longitude: -73.99708271026611 }
@@ -19,17 +20,19 @@ max_mpg = 70
 
 #### Routing / API
 #
-# start faking data to a random swarm
+# To start faking data to a random swarm listed in config.json, `GET /add`
+
 app.get '/add', (req, res) ->
   fakeData()
 
-# start faking data to a specific swarm
-app.get '/add/:swarm', (req, res) ->
-  fakeData req.params.swarm
+# To start faking data to a specific swarm, `GET /add/:swarm_id`
+app.get '/add/:swarm_id', (req, res) ->
+  fakeData req.params.swarm_id
 
 #### Helpers
 #
 # **fakeData** pushes fake data to a swarm
+
 fakeData = (swarm) ->
   if swarm? and config.swarms.indexOf(swarm) > -1
     swarm_id = swarm

@@ -1,16 +1,17 @@
 #### Lepidoptera
 #
-# **Lepidoptera** is an example solution built on top of [Swarm](http://github.com/buglabs/swarm).
+# **Lepidoptera** is an example solution built on top of [Swarm](http://github.com/buglabs/swarm)
+# This is the server component, which allows for viewing a fleet a vehicles
 #
 
 #### Installation
 #
 # Lepidoptera requires [Node.js](http://nodejs.org/) (`brew install node`)
-# and [npm](http://npmjs.org) (`curl http://npmjs.org/install.sh | sh`) for
-# installation. To install the dependencies once npm is available:
+# and [npm](http://npmjs.org) (`curl http://npmjs.org/install.sh | sh`)
+# Once npm is available,
 #
 #     npm install
-#     npm install supervisor -g
+#     sudo npm install -g supervisor
 #     supervisor src/server.coffee
 
 
@@ -22,16 +23,21 @@
 
 express = require 'express'
 gzippo = require 'gzippo'
-
 app = express.createServer()
+
+#### Configuration
+#
+# The config file is config.json, which is shared between server and faker
+#
 config = JSON.parse require('fs').readFileSync './config.json', 'utf8'
+
+app.set 'view engine', 'jade'
+app.set 'view options', { layout: false }
 
 #### Routing
 #
 # To see a map of all the location feeds, GET `/locations`
-app.set 'view engine', 'jade'
-app.set 'view options', { layout: false }
-
+#
 app.get '/locations', (req, res) ->
   res.render 'map', locals: { config: config }
 

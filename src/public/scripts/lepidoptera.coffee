@@ -1,6 +1,14 @@
+#### Lepidoptera
+#
+# **Lepidoptera** is an example solution built on top of [Swarm](http://github.com/buglabs/swarm)
+# This is the main message handler, which uses the DOM as the db, and jQuery as the ORM :-p
+#
+
 lepidoptera = ->
+  # this config should be passed through using jade
   console.log "config: #{JSON.stringify config}"
 
+  # creating the google map
   mapOptions = zoom: 12, center: new google.maps.LatLng(40.72498216901785, -73.99708271026611) , mapTypeId: google.maps.MapTypeId.ROADMAP
   mapCanvas = document.getElementById "map_canvas"
   mapGoogle = new google.maps.Map mapCanvas, mapOptions
@@ -10,10 +18,14 @@ lepidoptera = ->
   markers = []
   cars = [ { name: "fiesta", count: 0 }, { name: "fusion", count: 0 } ]
 
+  # the javascript api handles message callbacks as a consumer only
   SWARM.join apikey: "#{config.consumer_key}", swarms: config.swarms, callback: (message) ->
+
+    # for _messages_, update the mpg readout
     if resource and message.message?.body?
       updateFeed resource, message.message.body
 
+    # for _presence_, determine if a resource just joined or just left
     if message.presence?.type?
       swarm = message.presence.from?.split('@')[0]
       alive = message.presence.type is 'available'
@@ -45,11 +57,14 @@ lepidoptera = ->
         "<li class='feed #{feed}'><a href=#>#{feed}</a></li>"
       )
 
+    # replace the inner html with the new mpg data
     dom_feed.find("a").html "#{feed}: #{data[feed]}"
 
+    # see if we have a marker on the map for this resource
     for m in markers
       marker = m if m.title is resource
 
+    # if we don't, add it to the map. This may be better put in updatePresence
     if not marker?
       marker = new google.maps.Marker
         position: new google.maps.LatLng data.latitude, data.longitude
@@ -65,6 +80,7 @@ lepidoptera = ->
 
     markers.push marker
 
+    # now that we have the correct marker, update its location
     marker.setPosition new google.maps.LatLng data.latitude, data.longitude
 
 lepidoptera()
