@@ -32,6 +32,18 @@ app.get '/add/:swarm_id', (req, res) ->
 #### Helpers
 #
 # **fakeData** pushes fake data to a swarm
+#
+# Currently, it looks like
+#
+# `PUT /resources/:producer_name/feeds/mpg?swarm_id=:swarm_id`
+#
+# `{ latitude: -25.1, longitude: 40.1, mpg: 42 }`
+#
+# If you want to push other data, make sure the feed name and data field is the same, eg:
+#
+# `PUT /resources/:producer_name/feeds/RPM?swarm_id=:swarm_id`
+#
+# `{ latitude: -25.1, longitude: 40.1, RPM: 2600 }`
 
 fakeData = (swarm) ->
   if swarm? and config.swarms.indexOf(swarm) > -1
