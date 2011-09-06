@@ -11,4 +11,6 @@
   , "gzippo": "0.0.x" }
 , "devDependencies" : { "docco": "0.3.0" }
 , "engines": "node >= 0.4.10"
+, "scripts":
+  { "start": "sudo supervisor src/server.coffee" }
 }

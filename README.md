@@ -6,6 +6,9 @@
     \____/\____\\_/   \_/\____/\____/\_/    \_/ \____\\_/\_\\_/ \|
 
 Lepidoptera is an application for viewing a [Swarm][swarm] of vehicles
+
+For a quick start, `npm install; npm start`
+
 For more info, see http://buglabs.github.com/Lepidoptera
 
 [swarm]: http://github.com/buglabs/swarm

@@ -11,9 +11,7 @@
 # Once npm is available,
 #
 #     npm install
-#     sudo npm install -g supervisor
-#     supervisor src/server.coffee
-
+#     npm start
 
 #### Usage
 #
