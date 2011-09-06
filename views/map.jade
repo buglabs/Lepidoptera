@@ -20,19 +20,17 @@ html
     #over_bgn
     #container
       #header
-        #titles.shadow
-          h1 Lepidoptera:
-          h2 BUGSwarm Fleetwatcher
-        .links
-          h4#buglabs.shadow
-            a(href="http://buglabs.net") Buglabs
-          #motto Build. Connect. Share
-      #content.shadow
+        #titles
+        ul#menu
+          // reference for jade
+          li#id.class1.class2 Documentation
+      #content
+        #title
         #map_canvas
-        #pipe
         #sidebar
-          ul#resources
+          #filter
+          #resources
+            ul
       #footer
-        a#magic(href="http://localhost:33/add") Click for Magic!
         #copyright
           p &copy; Bug Labs, Inc.
