@@ -5,7 +5,8 @@
     | |_/\|  /_ |  __/| || |_/|| \_/||  __/ | | |  /_ |    /| |-||
     \____/\____\\_/   \_/\____/\____/\_/    \_/ \____\\_/\_\\_/ \|
 
-Lepidoptera is a quick-and-dirty example of what kind of solutions
-can be built upon [Swarm](http://github.com/buglabs/swarm)
+Lepidoptera is an application for viewing a [Swarm][swarm] of vehicles
+For more info, see http://buglabs.github.com/Lepidoptera
 
-For more info, see http://buglabs.github.com/lepidoptera
+[swarm]: http://github.com/buglabs/swarm
+
