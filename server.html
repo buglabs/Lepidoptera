@@ -1,0 +1,33 @@
+<!DOCTYPE html>  <html> <head>   <title>server.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="faker.html">                 faker.coffee               </a>                                           <a class="source" href="lepidoptera.html">                 lepidoptera.coffee               </a>                                           <a class="source" href="server.html">                 server.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               server.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <h3>Lepidoptera</h3>
+
+<p><strong>Lepidoptera</strong> is an example solution built on top of <a href="http://github.com/buglabs/swarm">Swarm</a>
+This is the server component, which allows for viewing a fleet a vehicles</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h3>Installation</h3>
+
+<p>Lepidoptera requires <a href="http://nodejs.org/">Node.js</a> (<code>brew install node</code>)
+and <a href="http://npmjs.org">npm</a> (<code>curl http://npmjs.org/install.sh | sh</code>)
+Once npm is available,</p>
+
+<pre><code>npm install
+sudo npm install -g supervisor
+supervisor src/server.coffee
+</code></pre>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h3>Usage</h3>
+
+<p>Browse <a href="http://localhost/locations">http://localhost/locations</a> to witness the magic</p>
+
+<p>You will also want to look at <a href="faker.html">Faker</a> which can create said magic</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">express = </span><span class="nx">require</span> <span class="s1">&#39;express&#39;</span>
+<span class="nv">gzippo = </span><span class="nx">require</span> <span class="s1">&#39;gzippo&#39;</span>
+<span class="nv">app = </span><span class="nx">express</span><span class="p">.</span><span class="nx">createServer</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h3>Configuration</h3>
+
+<p>The config file is config.json, which is shared between server and faker</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">config = </span><span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">).</span><span class="nx">readFileSync</span> <span class="s1">&#39;./config.json&#39;</span><span class="p">,</span> <span class="s1">&#39;utf8&#39;</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">set</span> <span class="s1">&#39;view engine&#39;</span><span class="p">,</span> <span class="s1">&#39;jade&#39;</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">set</span> <span class="s1">&#39;view options&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nv">layout: </span><span class="kc">false</span> <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <h3>Routing</h3>
+
+<p>To see a map of all the location feeds, GET <code>/locations</code></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nx">app</span><span class="p">.</span><span class="nx">get</span> <span class="s1">&#39;/locations&#39;</span><span class="p">,</span> <span class="nf">(req, res) -&gt;</span>
+  <span class="nx">res</span><span class="p">.</span><span class="nx">render</span> <span class="s1">&#39;map&#39;</span><span class="p">,</span> <span class="nv">locals: </span><span class="p">{</span> <span class="nv">config: </span><span class="nx">config</span> <span class="p">}</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span> <span class="nx">gzippo</span><span class="p">.</span><span class="nx">staticGzip</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/public&#39;</span><span class="p">)</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span> <span class="nx">app</span><span class="p">.</span><span class="nx">router</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">listen</span> <span class="mi">80</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
