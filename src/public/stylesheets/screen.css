@@ -130,23 +130,23 @@ html, body {
 /*
  *  RESOURCE LIST
  */
-#resources ul {
+ul#resources {
   width:268px;
 }
 
-#resources ul li.resource {
+ul#resources li.resource {
   color: ;
 }
 
-#resources ul li.resource ul#feeds {
+ul#resources li.resource ul#feeds {
   color: ;
 }
 
-#resources ul li.resource ul#feeds li.feed {
+ul#resources li.resource ul#feeds li.feed {
   color: ;
 }
 
-#resources ul li.resource ul#feeds li.feed span.data {
+ul#resources li.resource ul#feeds li.feed span.data {
   color: ;
 }
 
