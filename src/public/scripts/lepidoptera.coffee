@@ -41,7 +41,11 @@ lepidoptera = ->
     # if the resource doesn't exist, add it
     dom_resource = $("#resources > ##{resource}")[0] \
       or $("#resources").append(
-        "<li id='#{resource}'><a href=#>#{resource}</a><ul class='feeds'></ul></li>"
+         "<li class='resource' id='#{resource}'>"
+        + "<span class='car_icon'></span>"
+        + "<span class='car_name'></span>"
+        + "<ul class='feeds'></ul>"
+        +"</li>"
       )
 
     dom_resource.find("##{resource}").toggleClass 'alive', alive
@@ -57,7 +61,10 @@ lepidoptera = ->
 
     if dom_feed.length is 0
       dom_feed = $("##{resource} > .feeds").append(
-        "<li class='feed #{feed}'><a href=#>#{feed}</a>:<span class='data'></span></li>"
+         "<li class='feed #{feed}'>"
+        + "<span class='label'>#{feed}</span>:"
+        + "<span class='data'></span>"
+        +"</li>"
       )
 
     # replace the inner html with the new mpg data
