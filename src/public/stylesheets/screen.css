@@ -158,20 +158,36 @@ html, body {
   margin-bottom:5px;
 }
 
-#content #sidebar #resources .resource .car_icon {
+#content #sidebar #resources .resource .car_icon_wrapper {
   background-image:url("../images/icon-car-list-inactive.png");
-  width:20px;
-  height:20px;
+  background-repeat:no-repeat;
+  width:50px;
+  height:23px;
+  float:left;
+  margin:0px;
+  padding:0px;
+  margin-top:15px;
+  margin-right:10px;
+  margin-left:5px;
 }
 
-#content #sidebar #resources .resource .car_icon .alive {
+#content #sidebar #resources .resource.alive .car_icon_wrapper {
+  background-image:url("../images/icon-car-list-active.png");
+}
 
+#content #sidebar #resources .resource .car_icon_wrapper .car_icon {
+  position:absolute;
+  left:-999em;
 }
 
 #content #sidebar #resources .resource .car_name {
   font-family:Cabin;
   font-size:18px;
   color:#FFFFFF;
+  margin-top:15px;
+  width:260px;
+  height:35px;
+  float:left;
 }
  
 #content #sidebar #resources .resource .feeds {
@@ -179,13 +195,35 @@ html, body {
   margin:0px;
   padding:0px;
   background-color:#707277;
-  margin-top:29px;
+  width:100%;
+  float:left;
 }
 
 #content #sidebar #resources .resource .feeds .feed {
-  background-color:red;
-  height:25px;
   width:50%;
+  float:left;
+  font-family:Arial;
+  font-size:15px;
+  color:#D7D7D7;
+  margin-top:5px;
+}
+
+#content #sidebar #resources .resource .feeds .feed .icon_wrapper {
+  margin:0px;
+  padding:0px;
+  font-family:Arial;
+  font-size:15px;
+  color:#D7D7D7;
+  float:left;
+  margin-left:8px;
+}
+
+#content #sidebar #resources .resource .feeds .feed .data {
+  font-family:Arial;
+  font-size:15px;
+  color:#FFFFFF;
+  margin-left:2px;
+  margin-top:2px;
 }
 
 /*
@@ -201,6 +239,7 @@ html, body {
 #footer #copyright {
   float:left;
   height:10px;
+  font-family:Cabin;
   font-size:12px;
   color:#616461;
   margin:0;
