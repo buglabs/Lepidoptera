@@ -1,4 +1,4 @@
-{ "host": "bugswarm.net"
+{ "host": "api.bugswarm.net"
 , "user": "jedahan"
 , "master_key": "02f1703bf735003dabf14d64297daf4aaa8a8a14"
 , "producer_key": "79ab5d326d9bcaeba4693d0955a98b483c796628"
