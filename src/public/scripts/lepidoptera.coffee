@@ -53,7 +53,7 @@ lepidoptera = ->
     dom_feed = $("##{resource} > .feeds > .#{feed}")
 
     if dom_feed.length is 0
-      $("##{resource} > .feeds").append(
+      dom_feed = $("##{resource} > .feeds").append(
         "<li class='feed #{feed}'><a href=#>#{feed}</a>:<span class='data'></span></li>"
       )
 
