@@ -23,7 +23,10 @@ lepidoptera = ->
 
     # for _messages_, update the mpg readout
     if resource and message.message?.body?
-      updateFeed resource, message.message.body
+      try
+        updateFeed resource, message.message.body
+      catch err
+        console.error "#{message.message.body}"
 
     # for _presence_, determine if a resource just joined or just left
     if message.presence?.type?
