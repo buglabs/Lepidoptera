@@ -40,7 +40,7 @@ lepidoptera = ->
   updatePresence = (swarm, resource, alive) ->
     # if the resource doesn't exist, add it
     dom_resource = $("#resources > ##{resource}")[0] \
-      or $("#resources").append("<li class='resource' id='#{resource}'><span class='car_icon'></span><span class='car_name'>#{resource}</span><ul class='feeds'></ul></li>")
+      or $("#resources").append("<li class='resource' id='#{resource}'><span class='car_icon'>car</span><span class='car_name'>#{resource}</span><ul class='feeds'></ul></li>")
 
     dom_resource.find("##{resource}").toggleClass 'alive', alive
 
