@@ -152,7 +152,6 @@ html, body {
   overflow:auto;
 }
 
-/*li will be .resource*/
 #content #sidebar #resources .resource {
   background-color:#77797E;
   height:100px;
@@ -160,21 +159,21 @@ html, body {
 }
 
 #content #sidebar #resources .resource .car_icon {
-
+  background-image:url("../images/icon-car-list-inactive.png");
+  width:20px;
+  height:20px;
 }
 
 #content #sidebar #resources .resource .car_icon .alive {
 
 }
 
-/*li a will be .resource .car_name*/
 #content #sidebar #resources .resource .car_name {
   font-family:Cabin;
   font-size:18px;
   color:#FFFFFF;
 }
  
-/*li ul will be .resource .feeds*/
 #content #sidebar #resources .resource .feeds {
   height:50px;
   margin:0px;
@@ -183,7 +182,6 @@ html, body {
   margin-top:29px;
 }
 
-/*li ul li will be .resource .feeds .feed*/
 #content #sidebar #resources .resource .feeds .feed {
   background-color:red;
   height:25px;
