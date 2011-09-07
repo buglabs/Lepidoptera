@@ -48,12 +48,12 @@ app.get '/:feed/:swarm_id', (req, res) ->
 #
 # `{ latitude: -25.1, longitude: 40.1, RPM: 2600 }`
 
-fakeData = (feed="mpg", swarm_id=config.swarms[Math.floor(Math.random() * config.swarms.length)]) ->
-  if config.swarms.indexOf(swarm) > -1
+fakeData = (feed_name="mpg", swarm_id=config.swarms[Math.floor(Math.random() * config.swarms.length)]) ->
+  if config.swarms.indexOf(swarm_id) > -1
     options =
       host: config.host
       port: 80
-      path: "/resources/#{config.producer_name}/feeds/#{feed}?swarm_id=#{swarm_id}"
+      path: "/resources/#{config.producer_name}/feeds/#{feed_name}?swarm_id=#{swarm_id}"
       method: 'PUT'
       headers: { 'X-BugSwarmApiKey': config.producer_key }
 
@@ -62,7 +62,7 @@ fakeData = (feed="mpg", swarm_id=config.swarms[Math.floor(Math.random() * config
         feed =
           latitude: center_latitude + Math.random() * max_distance
           longitude: center_longitude + Math.random() * max_distance
-        feed["#{feed}"] = Math.floor(Math.random() * max["#{feed}"])
+        feed["#{feed_name}"] = Math.floor(Math.random() * max["#{feed_name}"])
         req.write JSON.stringify feed
       , 5000
     req.write '\n'
