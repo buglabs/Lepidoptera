@@ -1,3 +1,6 @@
+/*
+ * GENERAL
+ */
 a {
   text-decoration: none;
 }
@@ -7,13 +10,12 @@ ul {
 }
 
 /*
- *  BODY/CONTAINER
+ *  BODY/TOP_BORDER/CONTAINER
  */
 html, body {
   background-color:#D1D1D1;
   background-image:url("../images/gradient.jpg");
   background-repeat:repeat-x;
-  font-family:Cabin, sans-serif;
   margin:0px;
   padding:0px;
 }
@@ -31,7 +33,6 @@ html, body {
   height:925px;
   margin-left:auto;
   margin-right:auto;
-  margin-top:0px;
   z-index:2;
   position:relative;
 }
@@ -51,10 +52,6 @@ html, body {
 #header #menu {
   float:right;
   margin-top: 90px;
-  font-family: ‘PT Sans’, Arial, sans-serif;
-  font-weight: 700;
-  font-size:12px;
-  color:#FFFFFF;
 }
 
 #header #menu li {
@@ -64,8 +61,10 @@ html, body {
 
 #header #menu li a {
   color:#FFFFFF;
-  height:25px;
-  width:40px;
+  font-family: ‘PT Sans’, Arial, sans-serif;
+  font-weight: 700;
+  font-size:12px;
+  color:#FFFFFF;
 }
 
 #header #menu li a:hover {
@@ -84,7 +83,6 @@ html, body {
   width:1200px;
   height:700px;
   background-color:#616461;
-  margin-top: 0px;
   border-radius: 5px;
   webkit-border-radius: 5px;
   moz-border-radius: 5px;
@@ -99,7 +97,9 @@ html, body {
   text-shadow: 0 -1px #000;
   color:#FFFFFF;
   padding:5px;
-  margin:0px;
+  margin-bottom:0px;
+  margin-top:0px;
+  margin-right:0px;
   margin-left:10px;
 }
 
@@ -110,44 +110,47 @@ html, body {
   margin-left: 10px; 
 }
 
+/*
+ * SIDEBAR
+ */
 #content #sidebar {
   width:325px;
   height:625px;
   float:right;
-  background-color:#333333;
   margin-right:20px;
+  background-color:#333333;
+}
+
+#content #sidebar #filter {
+  height:35px;
+  background-color:blue;
 }
 
 #content #sidebar #resources {
-  width:325px;
-  margin-top:-16px;
+  margin:0px;
+  padding:0px;
+  background-color:#FFFFFF;
+  overflow:auto;
 }
 
-#content #sidebar #resources ul {
-  list-style-type: none;
+#content #sidebar #resources .resource {
+
 }
 
-/*
- *  RESOURCE LIST
- */
-ul#resources {
-  width:268px;
+#content #sidebar #resources .resource .car_icon {
+
 }
 
-ul#resources li.resource {
-  color: ;
+#content #sidebar #resources .resource .car_icon .alive {
+
 }
 
-ul#resources li.resource ul#feeds {
-  color: ;
-}
+#content #sidebar #resources .resource .car_name {
 
-ul#resources li.resource ul#feeds li.feed {
-  color: ;
 }
+ 
+#content #sidebar #resources .resource .feeds {
 
-ul#resources li.resource ul#feeds li.feed span.data {
-  color: ;
 }
 
 /*
