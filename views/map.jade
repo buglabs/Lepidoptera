@@ -8,7 +8,7 @@ html
       var config = !{JSON.stringify(config)}
 
     link(href="./stylesheets/screen.css", type="text/css", rel="stylesheet")
-    link(href="http://fonts.googleapis.com/css?family=Cabin", type="text/css", rel="stylesheet")
+    link(href="http://fonts.googleapis.com/css?family=Cabin:500|PT+Sans:700", type="text/css", rel="stylesheet")
 
     script(src="http://cdn.buglabs.net/swarm/swarm-v1.0.0.beta.js")
     script(src="http://maps.google.com/maps/api/js?sensor=false", type="text/javascript" )
@@ -17,22 +17,28 @@ html
     script(src="/scripts/lepidoptera.coffee", type="text/coffeescript" )
 
   body
-    #over_bgn
+    #top_border
     #container
       #header
-        #titles.shadow
-          h1 Lepidoptera:
-          h2 BUGSwarm Fleetwatcher
-        .links
-          h4#buglabs.shadow
-            a(href="http://buglabs.net") Buglabs
-          #motto Build. Connect. Share
-      #content.shadow
+        img#logo(src="images/logo.png", alt="logo")
+        ul#menu
+          li 
+            a(href="#") HOW IT WORKS
+            img#divider(src="images/divider.png", alt="divider")
+          li 
+            a(href="#") DOCUMENTATION
+            img#divider(src="images/divider.png", alt="divider")
+          li 
+            a(href="#") BLOG
+            img#divider(src="images/divider.png", alt="divider")
+          li
+            a(href="#") SUPPORT
+      #content
+        h1#title Fuel Efficiency Challenge!
         #map_canvas
-        #pipe
         #sidebar
-          ul#resources
+          #resources
+            ul
       #footer
-        a#magic(href="http://localhost:33/add") Click for Magic!
         #copyright
-          p &copy; Bug Labs, Inc.
+          p &copy; Bug Labs, Inc. | 2011
