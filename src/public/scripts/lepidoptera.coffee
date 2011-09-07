@@ -23,7 +23,10 @@ lepidoptera = ->
 
     # for _messages_, update the mpg readout
     if resource and message.message?.body?
-      updateFeed resource, message.message.body
+      try
+        updateFeed resource, message.message.body
+      catch err
+        console.error "#{message.message.body}"
 
     # for _presence_, determine if a resource just joined or just left
     if message.presence?.type?
@@ -37,9 +40,7 @@ lepidoptera = ->
   updatePresence = (swarm, resource, alive) ->
     # if the resource doesn't exist, add it
     dom_resource = $("#resources > ##{resource}")[0] \
-      or $("#resources").append(
-        "<li id='#{resource}'><a href=#>#{resource}</a><ul class='feeds'></ul></li>"
-      )
+      or $("#resources").append("<li class='resource' id='#{resource}'><span class='car_icon'></span><span class='car_name'>#{resource}</span><ul class='feeds'></ul></li>")
 
     dom_resource.find("##{resource}").toggleClass 'alive', alive
 
@@ -53,9 +54,7 @@ lepidoptera = ->
     dom_feed = $("##{resource} > .feeds > .#{feed}")
 
     if dom_feed.length is 0
-      dom_feed = $("##{resource} > .feeds").append(
-        "<li class='feed #{feed}'><a href=#>#{feed}</a>:<span class='data'></span></li>"
-      )
+      dom_feed = $("##{resource} > .feeds").append("<li class='feed #{feed}'><span class='label'>#{feed}</span>:<span class='data'></span></li>")
 
     # replace the inner html with the new mpg data
     dom_feed.find(".data").html "#{data[feed]}"
