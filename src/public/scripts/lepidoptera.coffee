@@ -54,11 +54,11 @@ lepidoptera = ->
 
     if dom_feed.length is 0
       $("##{resource} > .feeds").append(
-        "<li class='feed #{feed}'><a href=#>#{feed}</a></li>"
+        "<li class='feed #{feed}'><a href=#>#{feed}</a>:<span class='data'></span></li>"
       )
 
     # replace the inner html with the new mpg data
-    dom_feed.find("a").html "#{feed}: #{data[feed]}"
+    dom_feed.find(".data").html "#{data[feed]}"
 
     # see if we have a marker on the map for this resource
     for m in markers
