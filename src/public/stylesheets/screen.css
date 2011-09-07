@@ -2,15 +2,13 @@ a {
   text-decoration: none;
 }
 
-ul {
-  list-style-type: none;
-}
-
 /*
  *  BODY/CONTAINER
  */
 html, body {
-  background-color:#777777;
+  background-image:url("../images/gradient.jpg");
+  background-repeat:repeat-x;
+  background-color:#D1D1D1;
   font-family:Cabin, sans-serif;
   margin:0px;
   padding:0px;
@@ -38,9 +36,8 @@ html, body {
  *  HEADER
  */
 #header {
-  background-color:#333333;
   width:1200px;
-  height:200px;
+  height: 125px;
 }
 
 #header #logo {
@@ -49,9 +46,20 @@ html, body {
 
 #header #menu {
   float:right;
-  height:100px;
-  width:800px;
-  background-color:blue;
+  margin-top: 65px;
+}
+
+#header #menu ul {
+  font-family: ‘PT Sans’, Arial, sans-serif;
+  font-weight: 700;
+  font-size:12px;
+  color:#FFFFFF;
+}
+
+#header #menu ul li {
+  display:inline;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 
 /*
@@ -60,27 +68,41 @@ html, body {
 #content {
   width:1200px;
   height:570px;
-  background-color:#FFFFFF;
+  background-color:#616461;
+  margin-top: 10px;
+  border-radius: 5px;
+  webkit-border-radius: 5px;
+  moz-border-radius: 5px;
+  khtml-border-radius: 5px;
 }
 
 #content #title {
-  width: 450px;
-  height: 25px;
   float: left;
-  background-color:green;
+}
+
+#content #title h1 {
+  font-family: ‘Cabin’, Arial, sans-serif;
+  font-weight: 500;
+  font-size:34px;
+  text-shadow: 0 2px #000;
+  color:#FFFFFF;
+  padding:5px;
+  margin:0px
 }
 
 #content #map_canvas {
-  width:900px;
-  height:545px;
-  float:left; 
+  width:828px;
+  height:500px;
+  float:left;
+  margin-left: 10px; 
 }
 
 #content #sidebar {
-  width:300px;
-  height:545px;
+  width:325px;
+  height:500px;
   float:right;
   background-color:#333333;
+  margin-right:20px;
 }
 
 /*
