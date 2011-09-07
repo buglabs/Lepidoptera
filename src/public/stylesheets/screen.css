@@ -84,9 +84,9 @@ html, body {
   height:700px;
   background-color:#61646A;
   border-radius: 5px;
-  webkit-border-radius: 5px;
-  moz-border-radius: 5px;
-  khtml-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -khtml-border-radius: 5px;
 }
 
 #content #title {
@@ -126,6 +126,25 @@ html, body {
   margin-bottom:10px;
 }
 
+#content #sidebar #filter #filter_tag {
+  font-family:Cabin;
+  font-size:14px;
+  color:#FFFFFF;
+  float:left;
+  margin-left:5px;
+  margin-top:9px;
+}
+
+#content #sidebar #filter #filter_combo {
+  font-family:Cabin;
+  font-size:14px;
+  color:#63646A;
+  float:right;
+  margin-right:5px;
+  width:250px;
+  margin-top:7px;
+}
+
 #content #sidebar #resources {
   height:580px;
   margin:0px;
@@ -134,7 +153,7 @@ html, body {
 }
 
 /*li will be .resource*/
-#content #sidebar #resources li {
+#content #sidebar #resources .resource {
   background-color:#77797E;
   height:100px;
   margin-bottom:5px;
@@ -149,14 +168,14 @@ html, body {
 }
 
 /*li a will be .resource .car_name*/
-#content #sidebar #resources li a {
+#content #sidebar #resources .resource .car_name {
   font-family:Cabin;
   font-size:18px;
   color:#FFFFFF;
 }
  
 /*li ul will be .resource .feeds*/
-#content #sidebar #resources li ul {
+#content #sidebar #resources .resource .feeds {
   height:50px;
   margin:0px;
   padding:0px;
@@ -165,7 +184,7 @@ html, body {
 }
 
 /*li ul li will be .resource .feeds .feed*/
-#content #sidebar #resources li ul li {
+#content #sidebar #resources .resource .feeds .feed {
   background-color:red;
   height:25px;
   width:50%;
