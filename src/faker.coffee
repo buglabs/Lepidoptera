@@ -17,6 +17,8 @@ max_distance = .25
 center_latitude = (buglabs.latitude - max_distance / 2)
 center_longitude = (buglabs.longitude - max_distance / 2)
 max = { mpg: 70, rpm: 10000, change: 10, rank: 50 }
+cars = [ { name: "Fiesta", count: 0 }, { name: "Fusion", count: 0 } ]
+reqs = []
 
 #### Routing / API
 #
@@ -57,15 +59,31 @@ fakeData = (feed_name="mpg", swarm_id=config.swarms[Math.floor(Math.random() * c
       method: 'PUT'
       headers: { 'X-BugSwarmApiKey': config.producer_key }
 
+    car = cars[Math.floor(Math.random() * cars.length)]
+    car_name = "#{car.name} #{++car.count}"
+
     req = http.request options, (res) ->
       setInterval ->
         feed =
+          car_name: car_name
           latitude: center_latitude + Math.random() * max_distance
           longitude: center_longitude + Math.random() * max_distance
         feed["#{feed_name}"] = Math.floor(Math.random() * max["#{feed_name}"])
         req.write JSON.stringify feed
       , 5000
     req.write '\n'
+    reqs.push req
+
+process.on 'SIGTERM', () ->
+  process.exit 1
+
+process.on 'SIGINT', () ->
+  process.exit 1
+
+process.on 'exit', () ->
+  console.log 'sending presence unavailable'
+  for req in reqs
+    req.write JSON.stringify {presence: {type:"unavailable"}}
 
 fakeData()
 app.listen 33
