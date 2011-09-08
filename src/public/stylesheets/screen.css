@@ -5,6 +5,10 @@ a {
   text-decoration: none;
 }
 
+.label {
+  text-transform:uppercase;
+}
+
 ul {
   list-style-type: none;
 }
