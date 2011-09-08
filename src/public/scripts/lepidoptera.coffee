@@ -12,65 +12,67 @@ lepidoptera = ->
   mapOptions = zoom: 12, center: new google.maps.LatLng(40.72498216901785, -73.99708271026611) , mapTypeId: google.maps.MapTypeId.ROADMAP
   mapCanvas = document.getElementById "map_canvas"
   mapGoogle = new google.maps.Map mapCanvas, mapOptions
-  feed = 'location'
-  resource = null
 
   markers = []
-  cars = [ { name: "fiesta", count: 0 }, { name: "fusion", count: 0 } ]
 
   # the javascript api handles message callbacks as a consumer only
   SWARM.join apikey: "#{config.consumer_key}", swarms: config.swarms, callback: (message) ->
+    from = message.presence?.from or message.message?.from
+    resource_id = from?.split('/')[1]
 
-    # for _messages_, update the mpg readout
-    if resource and message.message?.body?
-      try
-        updateFeed resource, message.message.body
-      catch err
-        console.error "#{message.message.body}"
+    if resource_id?.indexOf('web') is -1
+      if resource_id?.indexOf('browser') is -1
+        # for _messages_, update the readout
+        if message.message?.body?
+          try
+            updateFeed resource_id, message.message.body
+          catch err
+            console.error "#{message.message.body}"
 
-    # for _presence_, determine if a resource just joined or just left
-    if message.presence?.type?
-      swarm = message.presence.from?.split('@')[0]
-      alive = message.presence.type is 'available'
-      if message.presence.from.indexOf('web') is -1
-        car = cars[Math.floor(Math.random() * cars.length)]
-        resource = car.name + "_#{car.count++}"
-        updatePresence swarm, resource, alive
+        # for _presence_, determine if a resource just joined or just left
+        if message.presence?.type?
+          updatePresence resource_id, message.presence.type is 'available'
 
-  updatePresence = (swarm, resource, alive) ->
+  updatePresence = (resource_id, alive) ->
+    console.log "updatePresence(#{resource_id}, #{alive})"
     # if the resource doesn't exist, add it
-    dom_resource = $("#resources > ##{resource}")[0] \
-      or $("#resources").append("<li class='resource' id='#{resource}'><h1 class='car_icon_wrapper'><span class='car_icon'>Car Icon</span></h1><span class='car_name'>#{resource}</span><ul class='feeds'></ul></li>")
+    dom_resource = $("#resources > ##{resource_id}")
 
-    dom_resource.find("##{resource}").toggleClass 'alive', alive
+    if dom_resource[0]?
+      dom_resource.find("##{resource_id}").toggleClass 'alive', alive
+    else if alive
+      dom_resource = $("#resources").append("<li class='resource alive' id='#{resource_id}'><h1 class='car_icon_wrapper'><span class='car_icon'>Car Icon</span></h1><span class='car_name'></span><ul class='feeds'></ul></li>")
 
-  updateFeed = (resource, body) ->
+  updateFeed = (resource_id, body) ->
     feed = body.feed
     data = JSON.parse body.data
 
-    console.log "updateFeed(#{resource},#{feed},#{JSON.stringify data})"
+    console.log "updateFeed(#{resource_id},#{feed},#{JSON.stringify data})"
+
+    dom_name = $("##{resource_id} > .car_name")
+    dom_name.html(data.car_name) if dom_name[0]?
 
     # if the feed doesn't exist, add it
-    dom_feed = $("##{resource} > .feeds > .#{feed}")
+    dom_feed = $("##{resource_id} > .feeds > .#{feed}")
 
-    if dom_feed.length is 0
-      dom_feed = $("##{resource} > .feeds").append("<li class='feed #{feed}'><h1 class='icon_wrapper'><span class='label'>#{feed}</span></h1>:<span class='data'></span></li>")
+    if dom_feed.length is 0 and data[feed]?
+      dom_feed = $("##{resource_id} > .feeds").append("<li class='feed #{feed}'><h1 class='icon_wrapper'><span class='label'>#{feed}</span></h1>:<span class='data'></span></li>")
 
     # replace the inner html with the new mpg data
     dom_feed.find(".data").html "#{data[feed]}"
 
     # see if we have a marker on the map for this resource
     for m in markers
-      marker = m if m.title is resource
+      marker = m if m.title is data.car_name
 
     # if we don't, add it to the map. This may be better put in updatePresence
     if not marker?
       marker = new google.maps.Marker
         position: new google.maps.LatLng data.latitude, data.longitude
-        icon: "http://robohash.org/#{resource}.png?size=40x40&set=set3"
+        icon: "http://robohash.org/#{data.car_name}.png?size=40x40&set=set3"
         map: mapGoogle
-        html: "<strong>#{resource}</strong>"
-        title: resource
+        html: "<strong>#{data.car_name}</strong>"
+        title: data.car_name
       infowindow = new google.maps.InfoWindow
 
       google.maps.event.addListener marker, 'click', () ->
