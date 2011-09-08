@@ -69,7 +69,7 @@ lepidoptera = ->
     if not marker?
       marker = new google.maps.Marker
         position: new google.maps.LatLng data.latitude, data.longitude
-        icon: "http://robohash.org/#{data.car_name}.png?size=40x40&set=set3"
+        icon: "../images/icon-car-map-active.png"
         map: mapGoogle
         html: "<strong>#{data.car_name}</strong>"
         title: data.car_name
