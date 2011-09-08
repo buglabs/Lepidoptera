@@ -91,7 +91,7 @@ html, body {
 
 #content #title {
   float:left;
-  font-family: ‘Cabin’, Arial, sans-serif;
+  font-family: 'Cabin', 'Arial', sans-serif;
   font-weight: 500;
   font-size:34px;
   text-shadow: 0 -1px #000;
