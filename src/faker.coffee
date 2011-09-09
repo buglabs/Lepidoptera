@@ -62,7 +62,7 @@ fakeData = (feed_name="ford", swarm_id=config.swarms[Math.floor(Math.random() * 
         for feeder in config.feeds
           feed[feeder.name] = Math.floor(Math.random() * feeder.max)
         req.write JSON.stringify feed
-      , 5000
+      , 3000 + (Math.random() * 2000)
     req.write '\n'
     reqs.push req
 
