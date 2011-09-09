@@ -9,7 +9,7 @@ lepidoptera = ->
   console.log "config: #{JSON.stringify config}"
 
   # creating the google map
-  mapOptions = zoom: 12, center: new google.maps.LatLng(37.770053, -122.403799) , mapTypeId: google.maps.MapTypeId.ROADMAP                                                                                 
+  mapOptions = zoom: 12, center: new google.maps.LatLng(37.770053, -122.403799) , mapTypeId: google.maps.MapTypeId.ROADMAP
   mapCanvas = document.getElementById "map_canvas"
   mapGoogle = new google.maps.Map mapCanvas, mapOptions
   markers = []
