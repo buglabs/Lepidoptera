@@ -44,12 +44,12 @@ lepidoptera = ->
 
   updateFeed = (resource_id, body) ->
     data = JSON.parse body.data
+    down = Math.random() < .5
 
-    console.log "updateFeed(#{resource_id},#{JSON.stringify data})"
+    console.log "updateFeed(#{resource_id},#{JSON.stringify data}, #{down})"
 
     dom_name = $("##{resource_id} > .car_name")
     dom_name.html(data.car_name) if dom_name[0]?
-
     for feed in config.feeds
       # if the feed doesn't exist, add it
       dom_feed = $("##{resource_id} > .feeds > .#{feed.name}")
@@ -59,6 +59,7 @@ lepidoptera = ->
 
       # replace the inner html with the new mpg data
       dom_feed.find(".data").html "#{data[feed.name]}"
+      dom_feed.toggleClass('down', down)
 
     # see if we have a marker on the map for this resource
     for m in markers
