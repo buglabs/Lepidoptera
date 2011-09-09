@@ -235,6 +235,10 @@ html, body {
   height:15px;  
 }
 
+#content #sidebar #resources .resource .feeds .feed.change.down .icion_wrapper {
+  background-image:url("../images/icon-arrow-down.png");
+}
+
 #content #sidebar #resources .resource .feeds .feed.change .icon_wrapper .label {
   position:absolute;
   left:-999em;
