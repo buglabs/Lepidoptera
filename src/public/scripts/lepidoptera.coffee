@@ -24,10 +24,13 @@ lepidoptera = ->
       if resource_id?.indexOf('browser') is -1
         # for _messages_, update the readout
         if message.message?.body?
-          try
-            updateFeed resource_id, message.message.body
-          catch err
-            console.error "#{message.message.body}"
+          if JSON.parse(message.message.body.data).presence is 'unavailable'
+            $("##{resource_id}").toggleClass 'alive', false
+          else
+            try
+              updateFeed resource_id, message.message.body
+            catch err
+              console.error "#{message.message.body}"
 
         # for _presence_, determine if a resource just joined or just left
         if message.presence?.type?
@@ -38,9 +41,7 @@ lepidoptera = ->
     # if the resource doesn't exist, add it
     dom_resource = $("#resources > ##{resource_id}")
 
-    if dom_resource[0]?
-      dom_resource.find("##{resource_id}").toggleClass 'alive', alive
-    else if alive
+    if alive and not dom_resource[0]?
       dom_resource = $("#resources").append("<li class='resource alive' id='#{resource_id}'><h1 class='car_icon_wrapper'><span class='car_icon'>Car Icon</span></h1><span class='car_name'></span><ul class='feeds'></ul></li>")
 
   updateFeed = (resource_id, body) ->
