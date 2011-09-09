@@ -13,7 +13,7 @@ config = JSON.parse require('fs').readFileSync './config.json', 'utf8'
 # center latitude and longitude, max distance, and max mpg
 
 buglabs = { latitude: 40.72498216901785, longitude: -73.99708271026611 }
-max_distance = .25
+max_distance = .01
 center_latitude = (buglabs.latitude - max_distance / 2)
 center_longitude = (buglabs.longitude - max_distance / 2)
 max = { mpg: 70, rpm: 10000, change: 10, rank: 50 }
@@ -74,16 +74,16 @@ fakeData = (feed_name="mpg", swarm_id=config.swarms[Math.floor(Math.random() * c
     req.write '\n'
     reqs.push req
 
-process.on 'SIGTERM', () ->
+process.on 'SIGTERM', ->
   process.exit 1
 
-process.on 'SIGINT', () ->
+process.on 'SIGINT', ->
   process.exit 1
 
-process.on 'exit', () ->
+process.on 'exit', ->
   console.log 'sending presence unavailable'
   for req in reqs
-    req.write JSON.stringify {presence: {type:"unavailable"}}
+    req.end
 
 fakeData()
 app.listen 33

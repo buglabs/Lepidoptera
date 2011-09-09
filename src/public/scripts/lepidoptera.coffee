@@ -16,32 +16,32 @@ lepidoptera = ->
   markers = []
 
   # the javascript api handles message callbacks as a consumer only
-  SWARM.join apikey: "#{config.consumer_key}", swarms: config.swarms, callback: (message) ->
-    from = message.presence?.from or message.message?.from
+  SWARM.join apikey: "#{config.consumer_key}", swarms: config.swarms, callback: (stanza) ->
+    from = stanza.presence?.from or stanza.message?.from
     resource_id = from?.split('/')[1]
 
     if resource_id?.indexOf('web') is -1
       if resource_id?.indexOf('browser') is -1
         # for _messages_, update the readout
-        if message.message?.body?
+        if stanza.message?.body?
           try
-            updateFeed resource_id, message.message.body
+            updateFeed resource_id, stanza.message.body
           catch err
-            console.error "#{message.message.body}"
+            console.error "#{stanza.message.body}"
 
         # for _presence_, determine if a resource just joined or just left
-        if message.presence?.type?
-          updatePresence resource_id, message.presence.type is 'available'
+        if stanza.presence?.type?
+          updatePresence resource_id, stanza.presence.type is 'available'
 
   updatePresence = (resource_id, alive) ->
     console.log "updatePresence(#{resource_id}, #{alive})"
     # if the resource doesn't exist, add it
     dom_resource = $("#resources > ##{resource_id}")
 
-    if dom_resource[0]?
-      dom_resource.find("##{resource_id}").toggleClass 'alive', alive
-    else if alive
+    if not dom_resource[0]?
       dom_resource = $("#resources").append("<li class='resource alive' id='#{resource_id}'><h1 class='car_icon_wrapper'><span class='car_icon'>Car Icon</span></h1><span class='car_name'></span><ul class='feeds'></ul></li>")
+
+    dom_resource.toggleClass 'alive', alive
 
   updateFeed = (resource_id, body) ->
     feed = body.feed
