@@ -74,16 +74,16 @@ fakeData = (feed_name="mpg", swarm_id=config.swarms[Math.floor(Math.random() * c
     req.write '\n'
     reqs.push req
 
-process.on 'SIGTERM', () ->
+process.on 'SIGTERM', ->
   process.exit 1
 
-process.on 'SIGINT', () ->
+process.on 'SIGINT', ->
   process.exit 1
 
-process.on 'exit', () ->
+process.on 'exit', ->
   console.log 'sending presence unavailable'
   for req in reqs
-    req.write JSON.stringify presence: {type:"unavailable"}
+    req.end
 
 fakeData()
 app.listen 33
