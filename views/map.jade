@@ -22,17 +22,10 @@ html
       #header
         img#logo(src="images/logo.png", alt="logo")
         ul#menu
-          li 
-            a(href="#") HOW IT WORKS
-            img#divider(src="images/divider.png", alt="divider")
-          li 
-            a(href="#") DOCUMENTATION
-            img#divider(src="images/divider.png", alt="divider")
-          li 
-            a(href="#") BLOG
-            img#divider(src="images/divider.png", alt="divider")
-          li
-            a(href="#") SUPPORT
+          for link, i in ["HOW IT WORKS", "DOCUMENTATION", "BLOG", "SUPPORT"]
+            li
+              a(href="#") #{link}
+              img.divider(src="images/divider.png", alt="|")
       #content
         h1#title Fuel Efficiency Challenge!
         #map_canvas

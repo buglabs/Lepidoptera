@@ -5,6 +5,10 @@ a {
   text-decoration: none;
 }
 
+#menu li:last-child img {
+  display: none;
+}
+
 .label {
   text-transform:uppercase;
 }
