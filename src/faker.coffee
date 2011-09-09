@@ -83,7 +83,7 @@ process.on 'SIGINT', () ->
 process.on 'exit', () ->
   console.log 'sending presence unavailable'
   for req in reqs
-    req.write JSON.stringify {presence: {type:"unavailable"}}
+    req.write JSON.stringify presence: {type:"unavailable"}
 
 fakeData()
 app.listen 33
