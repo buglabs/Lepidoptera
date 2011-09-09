@@ -5,4 +5,10 @@
 , "consumer_key": "580a128c2014eccc9b9a69dae9a4a3bb3d487200"
 , "swarms": [ "a88adedd607c166d04cab6680b18e669c080473f" ]
 , "producer_name" : "faker"
+, "feeds": [
+    { "name": "mpg", "max": 70 }
+  , { "name": "rpm", "max": 10000 }
+  , { "name": "change", "max": 10 }
+  , { "name": "rank", "max": 50 }
+  ]
 }
