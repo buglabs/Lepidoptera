@@ -16,7 +16,6 @@ buglabs = { latitude: 40.72498216901785, longitude: -73.99708271026611 }
 max_distance = .01
 center_latitude = (buglabs.latitude - max_distance / 2)
 center_longitude = (buglabs.longitude - max_distance / 2)
-max = { mpg: 70, rpm: 10000, change: 10, rank: 50 }
 cars = [ { name: "Fiesta", count: 0 }, { name: "Fusion", count: 0 } ]
 reqs = []
 
@@ -40,17 +39,10 @@ app.get '/:feed/:swarm_id', (req, res) ->
 #
 # Currently, it looks like
 #
-# `PUT /resources/:producer_name/feeds/mpg?swarm_id=:swarm_id`
+# `{ latitude: -25.1, longitude: 40.1, mpg: 42, rpm: 2600, ... }`
 #
-# `{ latitude: -25.1, longitude: 40.1, mpg: 42 }`
-#
-# If you want to push other data, make sure the feed name and data field is the same, eg:
-#
-# `PUT /resources/:producer_name/feeds/RPM?swarm_id=:swarm_id`
-#
-# `{ latitude: -25.1, longitude: 40.1, RPM: 2600 }`
 
-fakeData = (feed_name="mpg", swarm_id=config.swarms[Math.floor(Math.random() * config.swarms.length)]) ->
+fakeData = (feed_name="ford", swarm_id=config.swarms[Math.floor(Math.random() * config.swarms.length)]) ->
   if config.swarms.indexOf(swarm_id) > -1
     options =
       host: config.host
@@ -68,7 +60,8 @@ fakeData = (feed_name="mpg", swarm_id=config.swarms[Math.floor(Math.random() * c
           car_name: car_name
           latitude: center_latitude + Math.random() * max_distance
           longitude: center_longitude + Math.random() * max_distance
-        feed["#{feed_name}"] = Math.floor(Math.random() * max["#{feed_name}"])
+        for feeder in config.feeds
+          feed[feeder.name] = Math.floor(Math.random() * feeder.max)
         req.write JSON.stringify feed
       , 5000
     req.write '\n'

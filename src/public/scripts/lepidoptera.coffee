@@ -12,7 +12,6 @@ lepidoptera = ->
   mapOptions = zoom: 12, center: new google.maps.LatLng(37.770053, -122.403799) , mapTypeId: google.maps.MapTypeId.ROADMAP                                                                                 
   mapCanvas = document.getElementById "map_canvas"
   mapGoogle = new google.maps.Map mapCanvas, mapOptions
-
   markers = []
 
   # the javascript api handles message callbacks as a consumer only
@@ -44,22 +43,22 @@ lepidoptera = ->
     dom_resource.toggleClass 'alive', alive
 
   updateFeed = (resource_id, body) ->
-    feed = body.feed
     data = JSON.parse body.data
 
-    console.log "updateFeed(#{resource_id},#{feed},#{JSON.stringify data})"
+    console.log "updateFeed(#{resource_id},#{JSON.stringify data})"
 
     dom_name = $("##{resource_id} > .car_name")
     dom_name.html(data.car_name) if dom_name[0]?
 
-    # if the feed doesn't exist, add it
-    dom_feed = $("##{resource_id} > .feeds > .#{feed}")
+    for feed in config.feeds
+      # if the feed doesn't exist, add it
+      dom_feed = $("##{resource_id} > .feeds > .#{feed.name}")
 
-    if dom_feed.length is 0 and data[feed]?
-      dom_feed = $("##{resource_id} > .feeds").append("<li class='feed #{feed}'><h1 class='icon_wrapper'><span class='label'>#{feed}</span></h1>:<span class='data'></span></li>")
+      if dom_feed.length is 0 and data[feed.name]?
+        dom_feed = $("##{resource_id} > .feeds").append("<li class='feed #{feed.name}'><h1 class='icon_wrapper'><span class='label'>#{feed.name}</span></h1>:<span class='data'></span></li>")
 
-    # replace the inner html with the new mpg data
-    dom_feed.find(".data").html "#{data[feed]}"
+      # replace the inner html with the new mpg data
+      dom_feed.find(".data").html "#{data[feed.name]}"
 
     # see if we have a marker on the map for this resource
     for m in markers
