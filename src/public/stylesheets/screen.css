@@ -109,10 +109,11 @@ html, body {
   margin-top:0px;
   margin-right:0px;
   margin-left:10px;
+  width: 500px;
 }
 
 #content #map_canvas {
-  width:828px;
+  width:778px;
   height:625px;
   float:left;
   margin-left: 10px; 
@@ -122,7 +123,7 @@ html, body {
  * SIDEBAR
  */
 #content #sidebar {
-  width:325px;
+  width:375px;
   height:625px;
   float:right;
   margin-right:20px;
@@ -158,12 +159,12 @@ html, body {
   margin:0px;
   padding:0px;
   overflow:auto;
-  width:325px;
+  width:375px;
 }
 
 #content #sidebar #resources .resource {
   background-color:#77797E;
-  height:100px;
+  height:140px;
   margin-bottom:10px;
 }
 
@@ -171,13 +172,13 @@ html, body {
   background-image:url("../images/icon-car-list-inactive.png");
   background-repeat:no-repeat;
   width:50px;
-  height:35px;
+  height:45px;
   float:left;
   margin:0px;
   padding:0px;
   margin-right:10px;
   margin-left:5px;
-  margin-top:15px;
+  margin-top:25px;
 }
 
 #content #sidebar #resources .resource.alive .car_icon_wrapper {
@@ -191,16 +192,16 @@ html, body {
 
 #content #sidebar #resources .resource .car_name {
   font-family:Cabin;
-  font-size:18px;
+  font-size:23px;
   color:#FFFFFF;
   width:100px;
-  height:35px;
+  height:45px;
   float:left;
-  margin-top:15px;
+  margin-top:20px;
 }
  
 #content #sidebar #resources .resource .feeds {
-  height:50px;
+  height:75px;
   margin:0px;
   padding:0px;
   background-color:#707277;
@@ -212,16 +213,17 @@ html, body {
   width:35%;
   float:left;
   font-family:Arial;
-  font-size:15px;
+  font-size:20px;
   color:#D7D7D7;
   margin-top:5px;
+  margin-bottom:8px;
 }
 
 #content #sidebar #resources .resource .feeds .feed .icon_wrapper {
   margin:0px;
   padding:0px;
   font-family:Arial;
-  font-size:15px;
+  font-size:20px;
   color:#D7D7D7;
   float:left;
   margin-left:8px;
@@ -246,7 +248,7 @@ html, body {
 
 #content #sidebar #resources .resource .feeds .feed .data {
   font-family:Arial;
-  font-size:15px;
+  font-size:20px;
   color:#FFFFFF;
   margin-left:2px;
   margin-top:2px;
