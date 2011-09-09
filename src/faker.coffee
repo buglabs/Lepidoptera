@@ -13,7 +13,7 @@ config = JSON.parse require('fs').readFileSync './config.json', 'utf8'
 # center latitude and longitude, max distance, and max mpg
 
 buglabs = { latitude: 40.72498216901785, longitude: -73.99708271026611 }
-max_distance = .25
+max_distance = .01
 center_latitude = (buglabs.latitude - max_distance / 2)
 center_longitude = (buglabs.longitude - max_distance / 2)
 max = { mpg: 70, rpm: 10000, change: 10, rank: 50 }
