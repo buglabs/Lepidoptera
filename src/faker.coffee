@@ -52,12 +52,11 @@ fakeData = (feed_name="ford", swarm_id=config.swarms[Math.floor(Math.random() * 
       headers: { 'X-BugSwarmApiKey': config.producer_key }
 
     car = cars[Math.floor(Math.random() * cars.length)]
-    car_name = "#{car.name} #{++car.count}"
 
     req = http.request options, (res) ->
       setInterval ->
         feed =
-          car_name: car_name
+          car_name: car.name
           latitude: center_latitude + Math.random() * max_distance
           longitude: center_longitude + Math.random() * max_distance
         for feeder in config.feeds
