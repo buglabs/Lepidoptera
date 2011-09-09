@@ -95,7 +95,7 @@ html, body {
 
 #content #title {
   float:left;
-  font-family: ‘Cabin’, Arial, sans-serif;
+  font-family: 'Cabin', 'Arial', sans-serif;
   font-weight: 500;
   font-size:34px;
   text-shadow: 0 -1px #000;
@@ -205,7 +205,7 @@ html, body {
 }
 
 #content #sidebar #resources .resource .feeds .feed {
-  width:50%;
+  width:35%;
   float:left;
   font-family:Arial;
   font-size:15px;
@@ -221,6 +221,19 @@ html, body {
   color:#D7D7D7;
   float:left;
   margin-left:8px;
+}
+
+#content #sidebar #resources .resource .feeds .feed.change .icon_wrapper {
+  margin-top:5px;
+  background-image:url("../images/icon-arrow-up.png");
+  background-repeat:no-repeat;
+  width:15px;
+  height:15px;  
+}
+
+#content #sidebar #resources .resource .feeds .feed.change .icon_wrapper .label {
+  position:absolute;
+  left:-999em;
 }
 
 #content #sidebar #resources .resource .feeds .feed .data {
