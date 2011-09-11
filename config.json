@@ -1,5 +1,5 @@
 {
-   "host": "bugswarm.net"
+   "host": "api.bugswarm.net"
  , "user": "jconnolly"
  , "master_key": "bbf03a86c919bb598ced6ff4af7493493945bf46"
  , "producer_key": "2526b7ea177b1a3db5706f23cf6e9b8a7d2c1382"
