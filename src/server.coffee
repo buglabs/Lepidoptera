@@ -41,4 +41,4 @@ app.get '/locations', (req, res) ->
 
 app.use gzippo.staticGzip(__dirname + '/public')
 app.use app.router
-app.listen 80
+app.listen process.env.npm_package_config_port or 8080
