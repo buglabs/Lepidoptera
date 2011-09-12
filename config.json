@@ -1,14 +1,17 @@
-{ "host": "api.bugswarm.net"
-, "user": "jedahan"
-, "master_key": "02f1703bf735003dabf14d64297daf4aaa8a8a14"
-, "producer_key": "79ab5d326d9bcaeba4693d0955a98b483c796628"
-, "consumer_key": "580a128c2014eccc9b9a69dae9a4a3bb3d487200"
-, "swarms": [ "a88adedd607c166d04cab6680b18e669c080473f" ]
-, "producer_name" : "faker"
-, "feeds": [
+{
+   "host": "api.bugswarm.net"
+ , "user": "jconnolly"
+ , "master_key": "bbf03a86c919bb598ced6ff4af7493493945bf46"
+ , "producer_key": "2526b7ea177b1a3db5706f23cf6e9b8a7d2c1382"
+ , "consumer_key": "d0a1ef4bdc1b06e8fa144a2bfec2ef32df59978f"
+ , "swarms": [ "2fe24b7c3132b4ebdf08054d6391f40da43779a4"
+   ]
+ , "producer_name" : "faker"
+ , "feeds": [
     { "name": "mpg", "max": 70 }
   , { "name": "rpm", "max": 10000 }
   , { "name": "change", "max": 10 }
   , { "name": "rank", "max": 50 }
   ]
 }
+
