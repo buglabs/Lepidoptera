@@ -63,7 +63,7 @@ lepidoptera = ->
 
     # see if we have a marker on the map for this resource
     for m in markers
-      marker = m if m.title is data.car_name
+      marker = m if m.title is data.resource_id
 
     # if we don't, add it to the map. This may be better put in updatePresence
     if not marker?
@@ -72,7 +72,7 @@ lepidoptera = ->
         icon: "../images/icon-car-map-active.png"
         map: mapGoogle
         html: "<strong>#{data.car_name}</strong>"
-        title: data.car_name
+        title: data.resource_id
       infowindow = new google.maps.InfoWindow
 
       google.maps.event.addListener marker, 'click', () ->
