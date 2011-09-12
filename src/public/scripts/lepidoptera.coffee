@@ -38,7 +38,7 @@ lepidoptera = ->
     dom_resource = $("#resources > ##{resource_id}")
 
     if not dom_resource[0]?
-      dom_resource = $("#resources").append("<li class='resource alive' id='#{resource_id}'><h1 class='car_icon_wrapper'><span class='car_icon'>Car Icon</span></h1><span class='car_name'></span><ul class='feeds'></ul></li>")
+      dom_resource = $("#resources").prepend("<li class='resource alive' id='#{resource_id}'><h1 class='car_icon_wrapper'><span class='car_icon'>Car Icon</span></h1><span class='car_name'></span><ul class='feeds'></ul></li>")
 
     dom_resource.toggleClass 'alive', alive
 
