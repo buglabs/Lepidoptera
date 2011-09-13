@@ -8,7 +8,8 @@
   , "jade": "0.15.x"
   , "socket.io": "0.8.x"
   , "supervisor": "0.1.x"
-  , "gzippo": "0.0.x" }
+  , "gzippo": "0.0.x"
+  , "zappa": "0.2.x" }
 , "devDependencies" : { "docco": "0.3.0" }
 , "engines": "node >= 0.4.10"
 , "scripts":
