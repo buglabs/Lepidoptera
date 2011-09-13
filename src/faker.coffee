@@ -68,5 +68,17 @@ fakeData = (swarm) ->
     , 5000
   req.write '\n'
 
+
+process.on 'SIGTERM', ->
+  process.exit 1
+
+process.on 'SIGINT', ->
+  process.exit 1
+
+process.on 'exit', ->
+  console.log 'sending presence "unavailable"'
+  req.write JSON.stringify { presence: { type: "unavailable" } }
+
+
 fakeData()
 app.listen 33
