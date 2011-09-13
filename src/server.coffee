@@ -15,30 +15,20 @@
 
 #### Usage
 #
-# Browse [http://localhost/locations](http://localhost/locations) to witness the magic
+# Make sure the configuration in `config.json` is correct, then browse
+# [http://localhost/locations](http://localhost/locations) to witness the magic
 #
 # You will also want to look at [Faker](faker.html) which can create said magic
 
-express = require 'express'
-gzippo = require 'gzippo'
-app = express.createServer()
+@app = require('zappa') ->
+  gzippo = require 'gzippo'
 
-#### Configuration
-#
-# The config file is config.json, which is shared between server and faker
-#
-config = JSON.parse require('fs').readFileSync './config.json', 'utf8'
+  configure ->
+    set 'view engine': 'jade'
+    set 'view options': { layout: false }
+    app.register '.jade', zappa.adapter 'jade'
+    use app.router, gzippo.staticGzip __dirname + '/public'
 
-app.set 'view engine', 'jade'
-app.set 'view options', { layout: false }
-
-#### Routing
-#
-# To see a map of all the location feeds, GET `/locations`
-#
-app.get '/locations', (req, res) ->
-  res.render 'map', locals: { config: config }
-
-app.use gzippo.staticGzip(__dirname + '/public')
-app.use app.router
-app.listen 80
+  get '/locations': ->
+    @config = JSON.parse require('fs').readFileSync './config.json', 'utf8'
+    render 'map'
