@@ -28,6 +28,7 @@
     set 'view options': { layout: false }
     app.register '.jade', zappa.adapter 'jade'
     use app.router, gzippo.staticGzip __dirname + '/public'
+    listen process.env.npm_package_config_port or 8080
 
   get '/locations': ->
     @config = JSON.parse require('fs').readFileSync './config.json', 'utf8'

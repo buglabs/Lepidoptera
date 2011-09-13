@@ -2,6 +2,7 @@
 , "description" : "Swarm visualisation for a fleet of vehicles"
 , "version" : "0.0.1"
 , "author" : "Jonathan Dahan <jonathan.dahan@buglabs.net>"
+, "config" : { "port" : "80" }
 , "dependencies" :
   { "coffee-script": "1.1.x"
   , "express": "2.4.x"
@@ -10,8 +11,9 @@
   , "supervisor": "0.1.x"
   , "gzippo": "0.0.x"
   , "zappa": "0.2.x" }
-, "devDependencies" : { "docco": "0.3.0" }
+, "devDependencies" : { "docco": "0.3.x" }
 , "engines": "node >= 0.4.10"
 , "scripts":
-  { "start": "sudo supervisor src/server.coffee" }
+  { "start": "supervisor src/server.coffee"
+  , "doc": "docco src/{*,*/*/*}coffee" }
 }

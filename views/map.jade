@@ -1,7 +1,7 @@
 !!! 5
 html
   head
-    title Lepidoptera | BUGSwarm Fleetwatcher
+    title BUGswarm | Fuel Efficiency Challenge
 
     // expose the config variable
     script
@@ -22,21 +22,22 @@ html
       #header
         img#logo(src="images/logo.png", alt="logo")
         ul#menu
-          li 
-            a(href="#") HOW IT WORKS
-            img#divider(src="images/divider.png", alt="divider")
-          li 
-            a(href="#") DOCUMENTATION
-            img#divider(src="images/divider.png", alt="divider")
-          li 
-            a(href="#") BLOG
-            img#divider(src="images/divider.png", alt="divider")
-          li
-            a(href="#") SUPPORT
+          for link, i in ["HOW IT WORKS", "DOCUMENTATION", "BLOG", "SUPPORT"]
+            li
+              a(href="#") #{link}
+              img.divider(src="images/divider.png", alt="|")
       #content
         h1#title Fuel Efficiency Challenge!
         #map_canvas
         #sidebar
+          #filter
+            span#filter_tag Sort by
+            select#filter_combo
+              option(value="most_recent") Most Recently Updated
+              option(value="mpg") MPG
+              option(value="rpm") RPM
+              option(value="rank") Rank
+              option(value="change") Change
           ul#resources
       #footer
         #copyright

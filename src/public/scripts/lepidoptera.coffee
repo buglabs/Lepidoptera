@@ -9,72 +9,70 @@ lepidoptera = ->
   console.log "config: #{JSON.stringify config}"
 
   # creating the google map
-  mapOptions = zoom: 12, center: new google.maps.LatLng(40.72498216901785, -73.99708271026611) , mapTypeId: google.maps.MapTypeId.ROADMAP
+  mapOptions = zoom: 12, center: new google.maps.LatLng(37.770053, -122.403799) , mapTypeId: google.maps.MapTypeId.ROADMAP
   mapCanvas = document.getElementById "map_canvas"
   mapGoogle = new google.maps.Map mapCanvas, mapOptions
-  feed = 'location'
-  resource = null
-
   markers = []
-  cars = [ { name: "fiesta", count: 0 }, { name: "fusion", count: 0 } ]
 
   # the javascript api handles message callbacks as a consumer only
-  SWARM.join apikey: "#{config.consumer_key}", swarms: config.swarms, callback: (message) ->
+  SWARM.join apikey: "#{config.consumer_key}", swarms: config.swarms, callback: (stanza) ->
+    from = stanza.presence?.from or stanza.message?.from
+    resource_id = from?.split('/')[1]
 
-    # for _messages_, update the mpg readout
-    if resource and message.message?.body?
-      try
-        updateFeed resource, message.message.body
-      catch err
-        console.error "#{message.message.body}"
+    if resource_id?.indexOf('web') is -1
+      if resource_id?.indexOf('browser') is -1
+        # for _messages_, update the readout
+        if stanza.message?.body?
+          try
+            updateFeed resource_id, stanza.message.body
+          catch err
+            console.error "#{stanza.message.body}"
 
-    # for _presence_, determine if a resource just joined or just left
-    if message.presence?.type?
-      swarm = message.presence.from?.split('@')[0]
-      alive = message.presence.type is 'available'
-      if message.presence.from.indexOf('web') is -1
-        car = cars[Math.floor(Math.random() * cars.length)]
-        resource = car.name + "_#{car.count++}"
-        updatePresence swarm, resource, alive
+        # for _presence_, determine if a resource just joined or just left
+        if stanza.presence?.type?
+          updatePresence resource_id, stanza.presence.type is 'available'
 
-  updatePresence = (swarm, resource, alive) ->
+  updatePresence = (resource_id, alive) ->
+    console.log "updatePresence(#{resource_id}, #{alive})"
     # if the resource doesn't exist, add it
-    dom_resource = $("#resources > ##{resource}")[0] \
-      or $("#resources").append(
-        "<li id='#{resource}'><a href=#>#{resource}</a><ul class='feeds'></ul></li>"
-      )
+    dom_resource = $("#resources > ##{resource_id}")
 
-    dom_resource.find("##{resource}").toggleClass 'alive', alive
+    if not dom_resource[0]?
+      dom_resource = $("#resources").prepend("<li class='resource alive' id='#{resource_id}'><h1 class='car_icon_wrapper'><span class='car_icon'>Car Icon</span></h1><span class='car_name'></span><ul class='feeds'></ul></li>")
 
-  updateFeed = (resource, body) ->
-    feed = body.feed
+    dom_resource.toggleClass 'alive', alive
+
+  updateFeed = (resource_id, body) ->
     data = JSON.parse body.data
+    down = Math.random() < .5
 
-    console.log "updateFeed(#{resource},#{feed},#{JSON.stringify data})"
+    console.log "updateFeed(#{resource_id},#{JSON.stringify data}, #{down})"
 
-    # if the feed doesn't exist, add it
-    dom_feed = $("##{resource} > .feeds > .#{feed}")
+    dom_name = $("##{resource_id} > .car_name")
+    dom_name.html(data.car_name) if dom_name[0]?
+    for feed in config.feeds
+      # if the feed doesn't exist, add it
+      dom_feed = $("##{resource_id} > .feeds > .#{feed.name}")
 
-    if dom_feed.length is 0
-      dom_feed = $("##{resource} > .feeds").append(
-        "<li class='feed #{feed}'><a href=#>#{feed}</a>:<span class='data'></span></li>"
-      )
+      if dom_feed.length is 0 and data[feed.name]?
+        dom_feed = $("##{resource_id} > .feeds").append("<li class='feed #{feed.name}'><h1 class='icon_wrapper'><span class='label'>#{feed.name}</span></h1>:<span class='data'></span></li>")
 
-    # replace the inner html with the new mpg data
-    dom_feed.find(".data").html "#{data[feed]}"
+      # replace the inner html with the new mpg data
+      dom_feed.find(".data").html "#{data[feed.name]}"
+      dom_feed.toggleClass('down', down)
 
     # see if we have a marker on the map for this resource
     for m in markers
-      marker = m if m.title is resource
+      marker = m if m.title is resource_id
 
     # if we don't, add it to the map. This may be better put in updatePresence
     if not marker?
       marker = new google.maps.Marker
         position: new google.maps.LatLng data.latitude, data.longitude
-        icon: "http://robohash.org/#{resource}.png?size=40x40&set=set3"
+        icon: "../images/icon-car-map-active.png"
         map: mapGoogle
-        html: "<strong>#{resource}</strong>"
-        title: resource
+        html: "<strong>#{data.car_name}</strong>"
+        title: resource_id
       infowindow = new google.maps.InfoWindow
 
       google.maps.event.addListener marker, 'click', () ->
