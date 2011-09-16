@@ -3,11 +3,11 @@ html
   head
     title BUGswarm | Fuel Efficiency Challenge
 
-    // expose the config variable
+    // expose the config variable globally
     script
       var config = !{JSON.stringify(config)}
 
-    link(href="./stylesheets/screen.css", type="text/css", rel="stylesheet")
+    link(href="/stylesheets/screen.css", type="text/css", rel="stylesheet")
     link(href="http://fonts.googleapis.com/css?family=Cabin:500|PT+Sans:700", type="text/css", rel="stylesheet")
 
     script(src="http://cdn.buglabs.net/swarm/swarm-v1.0.0.beta.js")
