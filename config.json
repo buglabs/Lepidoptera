@@ -4,9 +4,10 @@
  , "master_key": "bbf03a86c919bb598ced6ff4af7493493945bf46"
  , "producer_key": "2526b7ea177b1a3db5706f23cf6e9b8a7d2c1382"
  , "consumer_key": "d0a1ef4bdc1b06e8fa144a2bfec2ef32df59978f"
- , "swarms": [ "2fe24b7c3132b4ebdf08054d6391f40da43779a4"
-   ]
+ , "swarms": [ "2fe24b7c3132b4ebdf08054d6391f40da43779a4" ]
  , "producer_name" : "faker"
+ , "buglabs":    { "latitude": 40.724982, "longitude":  -73.997082 }
+ , "techcrunch": { "latitude": 37.770053, "longitude": -122.403799 }
  , "feeds": [
     { "name": "mpg", "max": 70 }
   , { "name": "rpm", "max": 10000 }
