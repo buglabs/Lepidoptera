@@ -19,11 +19,15 @@
 # [http://localhost/](http://localhost/) to witness the magic
 #
 # You will also want to look at [Faker](faker.html) which can create said magic
+# Or just hit [http://localhost/add](http://localhost/add) if you are impatient
 
 zappa = require 'zappa'
 config = JSON.parse require('fs').readFileSync 'config.json'
 
 zappa 80, {config}, ->
+  def config: config
+  requiring 'faker'
+
   enable 'serve jquery'
 
   configure ->
@@ -31,16 +35,11 @@ zappa 80, {config}, ->
     set 'view options': { layout: false }
     use app.router, 'static'
 
-  app.register '.jade', zappa.adapter 'jade'#, blacklist
-
+  app.register '.jade', zappa.adapter 'jade'
 
   get '/': ->
     @config = config
     render 'map'
-
-zappa 33, {config}, ->
-  def config: config
-  requiring 'faker'
 
   get '/add': ->
     faker.add(config)
