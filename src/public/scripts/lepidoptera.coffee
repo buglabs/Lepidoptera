@@ -3,9 +3,8 @@
 # **Lepidoptera** is an example solution built on top of [Swarm](http://github.com/buglabs/swarm)
 # This is the main message handler, which uses the DOM as the db, and jQuery as the ORM :-p
 #
-
 lepidoptera = ->
-  # this config should be passed through using jade
+  # this @config should be passed through using jade
   console.log "config: #{JSON.stringify config}"
 
   # creating the google map
@@ -15,7 +14,7 @@ lepidoptera = ->
   markers = []
 
   # the javascript api handles message callbacks as a consumer only
-  SWARM.join apikey: "#{config.consumer_key}", swarms: config.swarms, callback: (stanza) ->
+  SWARM.join apikey: "#{@config.consumer_key}", swarms: @config.swarms, callback: (stanza) ->
     from = stanza.presence?.from or stanza.message?.from
     resource_id = from?.split('/')[1]
 
@@ -50,7 +49,7 @@ lepidoptera = ->
 
     dom_name = $("##{resource_id} > .car_name")
     dom_name.html(data.car_name) if dom_name[0]?
-    for feed in config.feeds
+    for feed in @config.feeds
       # if the feed doesn't exist, add it
       dom_feed = $("##{resource_id} > .feeds > .#{feed.name}")
 

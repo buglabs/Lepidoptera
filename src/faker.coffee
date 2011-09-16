@@ -3,11 +3,6 @@
 # **Faker** is a library for sending fake data to a swarm
 #
 
-http = require 'http'
-express = require 'express'
-app = express.createServer()
-config = JSON.parse require('fs').readFileSync './config.json', 'utf8'
-
 #### Constants
 #
 # center latitude and longitude, max distance, and max mpg
@@ -15,16 +10,6 @@ config = JSON.parse require('fs').readFileSync './config.json', 'utf8'
 #### Routing / API
 #
 # To start faking data to a random swarm listed in config.json, `GET /add`
-
-app.get '/add', (req, res) ->
-  fakeData()
-
-app.get '/:feed', (req, res) ->
-  fakeData req.params.feed
-
-# To start faking data to a specific swarm, `GET /add/:swarm_id`
-app.get '/:feed/:swarm_id', (req, res) ->
-  fakeData req.params.feed, req.params.swarm_id
 
 #### Helpers
 #
@@ -34,8 +19,17 @@ app.get '/:feed/:swarm_id', (req, res) ->
 #
 # `{ latitude: -25.1, longitude: 40.1, mpg: 42, rpm: 2600, ... }`
 #
+reqs = []
 
-fakeData = (feed_name="ford", swarm_id=config.swarms[Math.floor(Math.random() * config.swarms.length)]) ->
+fakeData = (config) ->
+  feed_name="ford"
+  swarm_id=config.swarms[Math.floor(Math.random() * config.swarms.length)]
+  http = require 'http'
+  max_distance = .01
+  center_latitude = (config.techcrunch.latitude - max_distance / 2)
+  center_longitude = (config.techcrunch.longitude - max_distance / 2)
+  cars = [ { name: "Fiesta", count: 0 }, { name: "Fusion", count: 0 } ]
+
   if config.swarms.indexOf(swarm_id) > -1
     options =
       host: config.host
@@ -59,28 +53,9 @@ fakeData = (feed_name="ford", swarm_id=config.swarms[Math.floor(Math.random() * 
     req.write '\n'
     reqs.push req
 
-process.on 'SIGTERM', ->
-  process.exit 1
+removeFaker = ->
+  reqs[Math.floor(Math.random() * reqs.length)].end
 
-process.on 'SIGINT', ->
-  process.exit 1
+module.exports.add = fakeData
+module.exports.remove = removeFaker
 
-process.on 'exit', ->
-  console.log 'sending presence unavailable'
-  for req in reqs
-    req.end
-
-
-process.on 'SIGTERM', ->
-  process.exit 1
-
-process.on 'SIGINT', ->
-  process.exit 1
-
-process.on 'exit', ->
-  console.log 'sending presence "unavailable"'
-  req.write JSON.stringify { presence: { type: "unavailable" } }
-
-
-fakeData()
-app.listen 33

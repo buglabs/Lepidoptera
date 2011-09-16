@@ -16,20 +16,34 @@
 #### Usage
 #
 # Make sure the configuration in `config.json` is correct, then browse
-# [http://localhost/locations](http://localhost/locations) to witness the magic
+# [http://localhost/](http://localhost/) to witness the magic
 #
 # You will also want to look at [Faker](faker.html) which can create said magic
 
-@app = require('zappa') ->
-  gzippo = require 'gzippo'
+zappa = require 'zappa'
+config = JSON.parse require('fs').readFileSync 'config.json'
+
+zappa 80, {config}, ->
+  enable 'serve jquery'
 
   configure ->
     set 'view engine': 'jade'
     set 'view options': { layout: false }
-    app.register '.jade', zappa.adapter 'jade'
-    use app.router, gzippo.staticGzip __dirname + '/public'
-    listen process.env.npm_package_config_port or 8080
+    use app.router, 'static'
 
-  get '/locations': ->
-    @config = JSON.parse require('fs').readFileSync './config.json', 'utf8'
+  app.register '.jade', zappa.adapter 'jade'#, blacklist
+
+
+  get '/': ->
+    @config = config
     render 'map'
+
+zappa 33, {config}, ->
+  def config: config
+  requiring 'faker'
+
+  get '/add': ->
+    faker.add(config)
+
+  get '/remove': ->
+    faker.remove()
